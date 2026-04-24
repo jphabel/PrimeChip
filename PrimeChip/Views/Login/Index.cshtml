@@ -3,5 +3,55 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@section Styles{
+    <link rel="stylesheet" href="~/css/login.css"/>
+}
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-5 rounded-5 border-primary">
+
+        <!-- HEADER -->
+        <div class="login-card text-center mb-4">
+            <div>
+                <h1>Prime<span class="text-primary">Chip</span></h1>
+                <p>Powering Performance, Connecting Future</p>
+            </div>
+
+            <div>
+                <h3>Welcome Back</h3>
+                <p class="text-secondary">Sign in to continue to your account</p>
+            </div>
+
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div class="mb-5">
+            <form>
+
+                <label class="form-label fw-medium">Email address</label>
+                <div class="position-relative mb-3">
+                    
+                    <i class="bi bi-envelope position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input type="email" class="form-control ps-5" placeholder="Enter your email">
+                </div>
+
+                <label class="form-label fw-medium">Password</label>
+                <div class="position-relative mb-3">
+                    <i class="bi bi-lock position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input type="password" class="form-control ps-5" placeholder="Enter your password">
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id=""/>
+                    <label class="form-check-label" for="">Remember me</label>
+                </div>
+                <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2" type="submit">
+                    <span>Sign in </span>
+                    <i class="bi bi-arrow-right" id="right-arrow"> </i> 
+                    </button>
+
+            </form>
+        </div>
+    </div>
+</div>
 
