@@ -1,7 +1,30 @@
-﻿#right-arrow {
+﻿body {
+    background-image: url("../images/login-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+#right-arrow {
     margin-top: 2px;
 }
 
 .login-card {
     padding: 3rem;
+}
+
+.PrimeChip-logo img {
+    margin-top: -7rem;
+    margin-bottom: -10rem;
+    height: 300px;
+    width: 400px;
+}
+
+#toggle-password {
+    cursor: pointer;
+}
+
+#toggle-password:hover {
+    color: gray;
 }
