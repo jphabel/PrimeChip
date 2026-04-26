@@ -1,8 +1,12 @@
-﻿namespace PrimeChip.Models
+﻿using System.ComponentModel.DataAnnotations;
+namespace PrimeChip.Models
 {
     public class User
     {
-        public string username { get; set; }
+        [Required]
+        public string email { get; set; }
+
+        [Required]
         public string password { get; set; }
     }
 }
