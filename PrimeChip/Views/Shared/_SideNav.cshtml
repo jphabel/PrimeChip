@@ -1,0 +1,166 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<!-- dashboard sidebar -->
+<style>
+    .sidebar-logo img {
+        position: relative;
+        max-width: 300px;
+        width: 100%;
+        margin-top: -3.5rem;
+        margin-bottom: -3.5rem;
+    }
+
+    li {
+        list-style: none;
+        margin: 5px 0.50rem;
+    }
+
+    li a {
+        position: relative;
+        text-decoration: none;
+        background-color: rgb(270, 270, 270);
+        border-radius: 6px;
+        color: gray;
+        padding: 13px;
+        display: block;
+        transition: all 0.2s ease-in-out;
+
+    }
+
+    a:hover {
+       background-color: rgb(220, 220, 220);
+       box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+       
+    }
+
+    #sidebar {
+        max-width: 264px;
+        min-width: 264px;
+        transition: all 0.35s ease-in-out;
+        background-color: rgb(245, 245, 245);
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    #sidebar.collapsed {
+        margin-left: -264px;
+     }
+
+    .sidebar-header {
+        width: 100%;
+        color: gray;
+        margin-left: 1rem;
+    }
+
+    .sidebar-link.active {
+        background-color: rgb(13, 110, 253);
+        color: white;
+        border-radius: 15px;
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+        padding: 8px;
+        display: block;
+        transition: 0.3s ease-in-out;
+    }
+
+    .sidebar-link.active:hover {
+            background-color: rgb(10, 73, 191);
+            box-shadow: none;
+    }
+
+    .sidebar-footer a  {
+        position: relative;
+        text-decoration: none;
+        background-color: rgb(210, 211, 212);
+        border-radius: 6px;
+        color: gray;
+        padding: 13px;
+        display: block;
+        transition: all 0.2s ease-in-out;
+        margin: 0.50rem;
+    }
+
+</style>
+    <aside id="sidebar" class="fw-semibold">
+        <div class="sidebar-logo text-center">
+            <img src="~/images/logo.png" alt="PrimeChip Logo" />
+        </div>
+
+        <!--SIDEBAR NAVIGATION-->
+        <!--Modules nav-->
+        <ul class="sidebar-nav p-0">
+        <li class="sidebar-main-item">
+            <a asp-controller="Dashboard" asp-action="Index"
+                   class='sidebar-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")'>
+                Dashboard
+            </a>
+        </li>
+
+        <!--Modules Nav-->
+            <li class="sidebar-header m-3">
+                MODULES
+            </li>
+            <li class="sidebar-item"> 
+                <a href="#" class="sidebar-link d-flex">
+                   <i class="bi bi-box ms-1 start-0"></i>
+                   <span class="ms-2">Inventory</span>
+                   <i class="bi bi-caret-right-fill ms-auto"></i>
+                </a>            
+            </li>
+            <li class="sidebar-item">
+            <a href="#" class="sidebar-link d-flex">
+                <i class="bi bi-people ms-1 start-0"></i>
+                <span class="ms-2">Vendors</span>
+                <i class="bi bi-caret-right-fill ms-auto"></i>
+            </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link d-flex">
+                    <i class="bi bi-bell ms-1 start-0"></i>
+                    <span class="ms-2">Alerts</span>
+                    <i class="bi bi-caret-right-fill ms-auto"></i>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link d-flex">
+                    <i class="bi bi-file-earmark-text ms-1 start-0"></i>
+                    <span class="ms-2">Reports</span>
+                    <i class="bi bi-caret-right-fill ms-auto"></i>
+               </a>
+            </li>
+        </ul>
+
+        <hr class="sidebar-divider m-2 mt-5 mb-4">
+        
+        <!--System nav-->
+        <ul class="sidebar-nav p-0">
+            
+            <li class="sidebar-header m-3">
+                SYSTEM
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link d-flex">
+                    <i class="bi bi-person ms-1 start-0"></i>
+                    <span class="ms-2">Users</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link d-flex">
+                    <i class="bi bi-gear ms-1 start-0"></i>
+                    <span class="ms-2">Settings</span>
+                </a>
+            </li>
+
+        </ul>
+         
+        <!--Logout nav-->
+        <div class="sidebar-footer">
+            <a href="#" class="sidebar-link d-flex">
+                <i class="bi bi-box-arrow-left ms-1 start-0"></i>
+                <span class="ms-2">Logout</span>
+            </a>
+        </div>
+    </aside>
