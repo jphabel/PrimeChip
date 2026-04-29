@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PrimeChip.Data;
-using PrimeChip.Models;
 
 namespace PrimeChip.Controllers
 {
@@ -18,16 +17,21 @@ namespace PrimeChip.Controllers
         {
             return View(); 
         }
+        public IActionResult TestHash()
+        {
+            var hash = BCrypt.Net.BCrypt.HashPassword("1234");
+            return Content(hash);
+        }
 
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
-            var user = _context.Users
-                .FirstOrDefault(u => u.email == email && u.password == password);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
-            if (user != null)
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                return RedirectToAction("Index", "Inventory");
+                HttpContext.Session.SetString("User", user.Email);
+                return RedirectToAction("Index", "Dashboard");
             }
 
             ViewBag.Error = "Invalid credentials";

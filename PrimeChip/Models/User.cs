@@ -3,10 +3,12 @@ namespace PrimeChip.Models
 {
     public class User
     {
-        [Required]
-        public string email { get; set; }
+        public int Id { get; set; } //primary key for the user
 
         [Required]
-        public string password { get; set; }
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
     }
 }
