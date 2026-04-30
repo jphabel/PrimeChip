@@ -1,16 +1,36 @@
 ﻿body {
-    margin: 0;
     padding: 0;
+    height: 100vh;
+    overflow: hidden; /* body itself never scrolls */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow-y: hidden;
 }
 
-
+.layout-wrapper {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
 
 .main {
-    min-height: 100vh;
-    width: 100%;
-    overflow: hidden;
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto; 
+    overflow-x: hidden;
     background-color: aliceblue;
+}
+
+.view-all-btn {
+    border: none;
+    background-color: transparent;
+    color: #007bff;
+    transition: 0.2s ease-in-out;
+}
+
+.view-all-btn:hover {
+     color: #0056b3;
+     text-decoration: underline;
+ } 
+.top-stat h6 {
+    font-size: 0.8rem;
 }
 

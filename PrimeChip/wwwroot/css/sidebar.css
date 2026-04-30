@@ -1,8 +1,7 @@
 ﻿.sidebar-logo img {
-    position: relative;
     max-width: 300px;
     width: 100%;
-    margin-top: -3.5rem;
+    margin-top: -2.5rem;
     margin-bottom: -3.5rem;
 }
 
@@ -14,7 +13,7 @@ li {
     li a {
         position: relative;
         text-decoration: none;
-        background-color: rgb(270, 270, 270);
+        background-color: rgb(255, 255, 255);
         border-radius: 6px;
         color: gray;
         padding: 13px;
@@ -28,18 +27,37 @@ a:hover {
 }
 
 #sidebar {
+    position: fixed;
+    z-index: 2;
     max-width: 264px;
     min-width: 264px;
     height: 100vh;
-    transition: all 0.35s ease-in-out;
-    background-color: rgb(245, 245, 245);
-    overflow-x: hidden;
     overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 0;
+    background-color: rgb(245, 245, 245);
+    transition: all 0.35s ease-in-out;
 }
 
-    #sidebar.collapsed {
-        margin-left: -264px;
-    }
+#sidebar.closed {
+    margin-left: -264px;
+
+}
+
+#sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+    z-index: 1;
+}
+
+#sidebar-backdrop.active {
+     display: block;
+}
 
 .sidebar-header {
     width: 100%;
@@ -74,12 +92,15 @@ a:hover {
     margin: 0.50rem;
 }
 
-@media screen and (max-width: 1300px) {
+
+@media screen and (min-width: 980px) {
     #sidebar {
-        margin-left: -264px;
+        position: relative; 
+        z-index: 1; 
     }
 
-        #sidebar.collapsed {
-            margin-left: 0;
-        }
+    #sidebar-backdrop.active {
+        display: none;
+    }
 }
+

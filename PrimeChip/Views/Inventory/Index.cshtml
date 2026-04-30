@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Inventory";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/dashboard.js"></script>
+}
+
+<div class="layout-wrapper">
+    <partial name="_SideNav" />
+
+    <!-- DASHBOARD CONTENT -->
+    <div class="main flex-column bg-light">
+        <partial name="_TopNav" />
+        <div id="sidebar-backdrop"></div>
+
+        <main class="p-3">
+
+            <div class="container-fluid">
+
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <h1 class="fw-bold">Inventory</h1>
+                </div>
+                <!--TOP STATS-->
+                <partial name="_TopStats" />
+
+               
+            </div>
+
+        </main>
+    </div>
+</div>

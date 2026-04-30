@@ -7,139 +7,207 @@
     <link rel="stylesheet" href="~/css/sidebar.css" />
 }
 
-
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/dashboard.js"></script>
 }
 
-<div class="d-flex">
-<partial name="_SideNav" />
-    
+<div class="layout-wrapper">
+    <partial name="_SideNav" />
+
     <!-- DASHBOARD CONTENT -->
     <div class="main flex-column bg-light">
         <partial name="_TopNav" />
+        <div id="sidebar-backdrop"></div>
 
         <main class="p-3">
 
-            <div class="container-fluid"> 
-                <!--Main-header -->
-                <div>
+            <div class="container-fluid">
+
+                <!-- Page Header -->
+                <div class="mb-4">
                     <h1 class="fw-bold">Welcome back, Admin!</h1>
-                    <p class="text-muted">
-                        Here's what's happening with your projects today.
-                    </p>
+                    <p class="text-muted">Here's what's happening with your projects today.</p>
+                </div>
+                <!--TOP STATS-->
+                <partial name="_TopStats" />
+
+            <!-- UPPER ROW  -->
+            <div class="row mb-3 g-3 p-3 justify-content-evenly">
+
+                <!-- Line Chart -->
+                <div class="col-md-7">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 h-100">
+                        <h6 class="fw-semibold mb-3">Inventory Overview</h6>
+                         <canvas id="line-chart"></canvas>
+                    </div>
                 </div>
 
-                <!-- Top stat cards-->
-                <div class="row g-3 mb-4">
-                    <!-- card 1 total product -->
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4">
-                            <div class="card-body d-flex align-items-center gap-4">
-                                 <i class="bi bi-box fs-1 text-primary"></i>
-                                 <div class="m-0 p-0">
-                                     <h6 class="m-0">Total Stock Products</h6>
-                                     <p>9,999</p>
-                                </div>
+                <!-- Recent Alerts -->
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-semibold m-0">Recent Alerts</h6>
+                                <button class="view-all-btn">View All</button>
                             </div>
-                        </div>
-                    </div>           
-                    <!-- card 2 low stocks -->
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4">
-                            <div class="card-body d-flex align-items-center gap-4">
-                                <i class="bi bi-exclamation-triangle fs-1 text-warning"></i>
-                                <div class="m-0 p-0">
-                                    <h6 class="m-0">Low Stock Products</h6>
-                                    <p>50</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card 3 out of stock items -->
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4">
-                            <div class="card-body d-flex align-items-center gap-4">
-                                <i class="bi bi-exclamation-circle fs-1 text-danger"></i>
-                                <div class="m-0 p-0">
-                                    <h6 class="m-0">Out of Stock Items</h6>
-                                    <p>10</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card 1 total inventory value -->
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4">
-                            <div class="card-body d-flex align-items-center gap-4">
-                                <i class="bi bi-cash-coin fs-1 text-success"></i>
-                                <div class="m-0 p-0">
-                                    <h6 class="m-0">Total Inventory Value</h6>
-                                    <p>$99,999.99</p>
-                                </div>
-                            </div>
+                            <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                                <li class="d-flex align-items-start gap-3 p-2 rounded-3 bg-danger bg-opacity-10">
+                                    <i class="bi bi-exclamation-circle-fill text-danger fs-5 mt-1 flex-shrink-0"></i>
+                                    <div>
+                                        <p class="mb-0 fw-semibold text-danger" style="font-size:0.875rem;">3 items are out of stock</p>
+                                        <small class="text-muted">Widget A, Unit B, Part C</small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start gap-3 p-2 rounded-3 bg-warning bg-opacity-10">
+                                    <i class="bi bi-exclamation-triangle-fill text-warning fs-5 mt-1 flex-shrink-0"></i>
+                                    <div>
+                                        <p class="mb-0 fw-semibold text-warning" style="font-size:0.875rem;">5 items below reorder level</p>
+                                        <small class="text-muted">Gadget Pro, Component X +3 more</small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start gap-3 p-2 rounded-3 bg-info bg-opacity-10">
+                                    <i class="bi bi-arrow-down-circle-fill text-info fs-5 mt-1 flex-shrink-0"></i>
+                                    <div>
+                                        <p class="mb-0 fw-semibold text-info" style="font-size:0.875rem;">New stock received</p>
+                                        <small class="text-muted">Module Z — 200 units added today</small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start gap-3 p-2 rounded-3 bg-success bg-opacity-10">
+                                    <i class="bi bi-check-circle-fill text-success fs-5 mt-1 flex-shrink-0"></i>
+                                    <div>
+                                        <p class="mb-0 fw-semibold text-success" style="font-size:0.875rem;">Purchase order #4821 fulfilled</p>
+                                        <small class="text-muted">2 minutes ago</small>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <!--Bottom stat cards-->
-
-            <!--Upper-->
-            <div class="row mb-1 g-3 p-3 justify-content-evenly">
-                <div class="col-md-5">
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-body d-flex align-items-center gap-4">
-                            <i class="bi bi-box fs-1 text-primary"></i>
-                            <div class="m-0 p-0">
-                                <h6 class="m-0">Total Stock Products</h6>
-                                <p>9,999</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-5">
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-body d-flex align-items-center gap-4">
-                            <i class="bi bi-box fs-1 text-primary"></i>
-                            <div class="m-0 p-0">
-                                <h6 class="m-0">Total Stock Products</h6>
-                                <p>9,999</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
-            <!--Lower-->
+            <!-- LOWER ROW: Purchase Orders + Top Stock Items -->
             <div class="row g-3 p-3 justify-content-evenly">
-                <div class="col-md-5">
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-body d-flex align-items-center gap-4">
-                            <i class="bi bi-box fs-1 text-primary"></i>
-                            <div class="m-0 p-0">
-                                <h6 class="m-0">Total Stock Products</h6>
-                                <p>9,999</p>
+
+                <!-- Recent Purchase Orders -->
+                <div class="col-md-7">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-semibold m-0">Recent Purchase Orders</h6>
+                                <button class="view-all-btn">View All</button>
                             </div>
+                            <table class="table table-sm table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Supplier</th>
+                                        <th>Items</th>
+                                        <th>Value</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted">#PO-1041</td>
+                                        <td>Acme Corp</td>
+                                        <td>12</td>
+                                        <td>$1,240.00</td>
+                                        <td><span class="badge bg-success">Fulfilled</span></td>
+                                        <td class="text-muted">Apr 28</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">#PO-1042</td>
+                                        <td>Global Supplies</td>
+                                        <td>5</td>
+                                        <td>$780.00</td>
+                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                        <td class="text-muted">Apr 29</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">#PO-1043</td>
+                                        <td>TechParts Ltd</td>
+                                        <td>30</td>
+                                        <td>$4,500.00</td>
+                                        <td><span class="badge bg-info text-dark">In Transit</span></td>
+                                        <td class="text-muted">Apr 29</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">#PO-1044</td>
+                                        <td>FastTrack Co</td>
+                                        <td>8</td>
+                                        <td>$960.00</td>
+                                        <td><span class="badge bg-danger">Cancelled</span></td>
+                                        <td class="text-muted">Apr 30</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">#PO-1045</td>
+                                        <td>Acme Corp</td>
+                                        <td>20</td>
+                                        <td>$2,100.00</td>
+                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                        <td class="text-muted">Apr 30</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-5">
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-body d-flex align-items-center gap-4">
-                            <i class="bi bi-box fs-1 text-primary"></i>
-                            <div class="m-0 p-0">
-                                <h6 class="m-0">Total Stock Products</h6>
-                                <p>9,999</p>
+                <!-- Top Stock Items -->
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-semibold m-0">Top Stock Items</h6>
+                                <button class="view-all-btn">View All</button>
                             </div>
+                            <table class="table table-sm table-hover table-striped align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Gadget Pro</td>
+                                        <td>340</td>
+                                        <td>$28,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Widget A</td>
+                                        <td>210</td>
+                                        <td>$22,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Module Z</td>
+                                        <td>180</td>
+                                        <td>$18,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Component X</td>
+                                        <td>95</td>
+                                        <td>$14,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit B</td>
+                                        <td>60</td>
+                                        <td>$9,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
             </div>
-            
+
+          </div>
+
         </main>
     </div>
 </div>
