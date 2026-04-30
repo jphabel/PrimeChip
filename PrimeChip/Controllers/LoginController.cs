@@ -24,7 +24,7 @@ namespace PrimeChip.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login()
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 

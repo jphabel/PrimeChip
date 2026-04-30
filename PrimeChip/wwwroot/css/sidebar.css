@@ -45,8 +45,8 @@ a:hover {
 }
 
 #sidebar-backdrop {
-    display: none;
     position: fixed;
+    display: none;
     top: 0;
     left: 0;
     width: 100%;
@@ -95,8 +95,8 @@ a:hover {
 
 @media screen and (min-width: 980px) {
     #sidebar {
-        position: relative; 
-        z-index: 1; 
+        position: relative;
+        z-index: 1;
     }
 
     #sidebar-backdrop.active {

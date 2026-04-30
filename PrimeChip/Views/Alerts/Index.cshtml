@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Alerts";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/dashboard.js"></script>
+}
+
+<div class="layout-wrapper">
+    <partial name="_SideNav" />
+
+    <!-- DASHBOARD CONTENT -->
+    <div class="main flex-column bg-light">
+        <partial name="_TopNav" />
+        <div id="sidebar-backdrop"></div>
+
+        <main class="p-3">
+
+            <div class="container-fluid">
+
+                <!-- Page Header -->
+                <div class="mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="fw-bold">Alerts</h1>
+                        <p class="text-muted">Manage and view system alerts.</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary rounded-5">+ Add Alert</button>
+                    </div>
+                </div>
+
+                <!--TOP STATS-->
+                <partial name="_TopStats" />
+              
+
+            </div>
+
+        </main>
+    </div>
+</div>
