@@ -22,28 +22,28 @@
                 MODULES
             </li>
             <li class="sidebar-item"> 
-            <a asp-controller="Inventory" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")'>
-                   <i class="bi bi-box ms-1 start-0"></i>
-                   <span class="ms-2">Inventory</span>
-                   <i class="bi bi-caret-right-fill ms-auto"></i>
+                <a asp-controller="Inventory" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")'>
+                       <i class="bi bi-box ms-1 start-0"></i>
+                       <span class="ms-2">Inventory</span>
+                       <i class="bi bi-caret-right-fill ms-auto"></i>
                 </a>            
             </li>
             <li class="sidebar-item">
-            <a href="#" class="sidebar-link d-flex">
-                <i class="bi bi-people ms-1 start-0"></i>
-                <span class="ms-2">Vendors</span>
-                <i class="bi bi-caret-right-fill ms-auto"></i>
-            </a>
+                <a asp-controller="Vendors" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Vendors" ? "active" : "")'>
+                    <i class="bi bi-people ms-1 start-0"></i>
+                    <span class="ms-2">Vendors</span>
+                    <i class="bi bi-caret-right-fill ms-auto"></i>
+                </a>
             </li>
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link d-flex">
+                <a asp-controller="Alerts" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Alerts" ? "active" : "")'>
                     <i class="bi bi-bell ms-1 start-0"></i>
                     <span class="ms-2">Alerts</span>
                     <i class="bi bi-caret-right-fill ms-auto"></i>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link d-flex">
+                <a asp-controller="Reports" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Reports" ? "active" : "")'>
                     <i class="bi bi-file-earmark-text ms-1 start-0"></i>
                     <span class="ms-2">Reports</span>
                     <i class="bi bi-caret-right-fill ms-auto"></i>

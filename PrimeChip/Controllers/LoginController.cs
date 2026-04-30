@@ -20,14 +20,14 @@ namespace PrimeChip.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login()
         {
-            var user = _context.Users
-                .FirstOrDefault(u => u.email == email && u.password == password);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
             if (user != null)
             {
-                return RedirectToAction("Index", "Inventory");
+                HttpContext.Session.SetString("User", user.Email);
+                return RedirectToAction("Index", "Dashboard");
             }
 
             ViewBag.Error = "Invalid credentials";
