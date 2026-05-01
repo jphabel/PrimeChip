@@ -6,7 +6,7 @@ const screenWidthThreshold = 1280;
 
 document.addEventListener("DOMContentLoaded", () => {
     const sidebarState = localStorage.getItem("sidebar");
-    const isSmallScreen = window.innerWidth < screenWidthThreshold; // fixed
+    const isSmallScreen = window.innerWidth < screenWidthThreshold; 
 
     const shouldClose = sidebarState === "closed" && isSmallScreen;
 
