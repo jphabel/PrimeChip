@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 namespace PrimeChip.Models
 {
     public class User
     {
-        public int Id { get; set; } //primary key for the user
-
+        public int Id { get; set; }
         [Required]
         public string Email { get; set; }
 

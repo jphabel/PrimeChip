@@ -7,13 +7,13 @@ namespace PrimeChip.Controllers
     {
         public IActionResult Index()
         {
-            var user = HttpContext.Session.GetString("User");
+            var user = HttpContext.Session.GetString("user");
 
             if (string.IsNullOrEmpty(user))
             {
                 return RedirectToAction("Login", "Login");
             }
             return View();
-        }
+        } 
     }
 }
