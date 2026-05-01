@@ -22,7 +22,11 @@ namespace PrimeChip.Controllers
             var hash = BCrypt.Net.BCrypt.HashPassword("1234");
             return Content(hash);
         }
-
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }
         [HttpPost] 
         public IActionResult Login(string email, string password)
         {
