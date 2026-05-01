@@ -31,7 +31,7 @@
                     <p class="text-muted">Track product,stock levels, reorder status.</p>
                     </div>
                     <div>
-                        <button class="btn btn-primary rounded-5">+ Add Product</button>
+                        <button type="button" class="btn btn-primary rounded-5" data-bs-toggle="modal" data-bs-target="#addProductModal">+ Add Product</button>
                     </div>
                 </div>
                 
@@ -174,5 +174,54 @@
             </div>
 
         </main>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addProductModal">Enter Product Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Product</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">SKU</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select">
+                            <option value="" disabled selected>Category</option>
+                            <option>Storage</option>
+                            <option>Processor</option>
+                            <option>Video Card</option>
+                            <option>Motherboard</option>
+                            <option>Peripherals</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Stock qty</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Reorder Level</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Unit Price</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class=" d-flex justify-content-end">
+                        <button type="button" class="btn btn-success">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

@@ -2,30 +2,35 @@
 const toggler = document.querySelector(".toggler-button");
 const sideNav = document.getElementById("sidebar");
 const backdrop = document.getElementById("sidebar-backdrop");
+const screenWidthThreshold = 1280; 
 
-// Save sidebar state on unload
 document.addEventListener("DOMContentLoaded", () => {
-    const isClosed = localStorage.getItem("sidebar") === "closed";
+    const sidebarState = localStorage.getItem("sidebar");
+    const isSmallScreen = window.innerWidth < screenWidthThreshold; // fixed
 
-    if (isClosed) {
+    const shouldClose = sidebarState === "closed" && isSmallScreen;
+
+    if (shouldClose) {
         sideNav.classList.add("closed");
         backdrop.classList.remove("active");
-    } else {
-        sideNav.classList.remove("closed");
-        backdrop.classList.add("active");
+    } else if (sidebarState === "open" && isSmallScreen) {
+        sideNav.classList.add("closed");
+        backdrop.classList.remove("active");
     }
 });
 
-// Toggle sidebar
 toggler.addEventListener("click", () => {
     sideNav.classList.toggle("closed");
     backdrop.classList.toggle("active");
+
+    const isNowClosed = sideNav.classList.contains("closed");
+    localStorage.setItem("sidebar", isNowClosed ? "closed" : "open");
 });
 
-// Close when clicking outside
 backdrop.addEventListener("click", () => {
     sideNav.classList.add("closed");
     backdrop.classList.remove("active");
+    localStorage.setItem("sidebar", "closed");
 });
 
 // Shared chart defaults

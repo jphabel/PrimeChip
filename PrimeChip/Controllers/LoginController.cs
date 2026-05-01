@@ -11,7 +11,7 @@ namespace PrimeChip.Controllers
         public LoginController(AppDbContext context)
         {
             _context = context;
-        }
+        } 
 
         [HttpGet]
         public IActionResult Index()
@@ -19,18 +19,18 @@ namespace PrimeChip.Controllers
             return View(); 
         }
 
-        [HttpPost]
-        public IActionResult Login()
+        [HttpPost] 
+        public IActionResult Login(string email, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            var user = _context.Users.FirstOrDefault(u => u.email == email);
 
             if (user != null)
             {
-                HttpContext.Session.SetString("User", user.Email);
+                HttpContext.Session.SetString("user", user.email);
                 return RedirectToAction("Index", "Dashboard");
             }
 
-            ViewBag.Error = "Invalid credentials";
+            ViewBag.Error = "Invalid credentials"; 
             return View("Index");
         }
     }

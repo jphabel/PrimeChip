@@ -93,7 +93,7 @@ a:hover {
 }
 
 
-@media screen and (min-width: 980px) {
+@media screen and (min-width: 1280px) {
     #sidebar {
         position: relative;
         z-index: 1;
