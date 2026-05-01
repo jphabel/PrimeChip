@@ -26,11 +26,11 @@ namespace PrimeChip.Controllers
         [HttpPost] 
         public IActionResult Login(string email, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.email == email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
             if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                HttpContext.Session.SetString("user", user.email);
+                HttpContext.Session.SetString("user", user.Email);
                 return RedirectToAction("Index", "Dashboard");
             }
 
