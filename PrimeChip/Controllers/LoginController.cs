@@ -15,6 +15,12 @@ namespace PrimeChip.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var user = HttpContext.Session.GetString("user");
+
+            if (!string.IsNullOrEmpty(user))
+            {
+                HttpContext.Session.Clear();
+            }
             return View(); 
         }
         public IActionResult TestHash()
@@ -22,7 +28,11 @@ namespace PrimeChip.Controllers
             var hash = BCrypt.Net.BCrypt.HashPassword("1234");
             return Content(hash);
         }
-
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }
         [HttpPost] 
         public IActionResult Login(string email, string password)
         {

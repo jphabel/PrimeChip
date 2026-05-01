@@ -1,9 +1,4 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-    <aside id="sidebar" class="fw-semibold">
+﻿<aside id="sidebar" class="fw-semibold">
         <div class="sidebar-logo text-center">
             <img src="~/images/logo.png" alt="PrimeChip Logo" />
         </div>
@@ -70,7 +65,7 @@
          
         <!--Logout nav-->
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-link d-flex">
+            <a asp-controller="Login" asp-action="Logout" class="sidebar-link d-flex">
                 <i class="bi bi-box-arrow-left ms-1 start-0"></i>
                 <span class="ms-2">Logout</span>
             </a>
