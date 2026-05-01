@@ -11,7 +11,7 @@ namespace PrimeChip.Controllers
 
             if (string.IsNullOrEmpty(user))
             {
-                return RedirectToAction("Login", "Login");
+                return RedirectToAction("Index", "Login");
             }
             return View();
         } 
