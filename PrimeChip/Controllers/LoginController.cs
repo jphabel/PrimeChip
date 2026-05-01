@@ -15,6 +15,12 @@ namespace PrimeChip.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var user = HttpContext.Session.GetString("user");
+
+            if (!string.IsNullOrEmpty(user))
+            {
+                HttpContext.Session.Clear();
+            }
             return View(); 
         }
         public IActionResult TestHash()
