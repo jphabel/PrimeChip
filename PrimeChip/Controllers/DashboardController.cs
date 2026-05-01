@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PrimeChip.Data;
 
 namespace PrimeChip.Controllers
 {
