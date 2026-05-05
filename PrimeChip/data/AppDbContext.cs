@@ -12,5 +12,6 @@ namespace PrimeChip.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
 }
 }

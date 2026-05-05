@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<PrimeChip.Models.Vendor>;
+
+@{
     ViewData["Title"] = "Vendors";
 }
 
@@ -55,42 +57,18 @@
                             </tr>
                         </thead>
                         <tbody class="border-1">
-                            <tr>
-                                <td class="text-muted">TechSource Solutions</td>
-                                <td>123456789</td>
-                                <td>123 Tech Street, Silicon Valley, CA</td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">Optimu Prime</td>
-                                <td>987654321</td>
-                                <td>321 Galactus, USA</td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">Stark Industry</td>
-                                <td>678954321</td>
-                                <td>032 Cave, USA</td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">JARVIS FRIDAY</td>
-                                <td>0808080808</td>
-                                <td>CHATGPT, CLAUDE, 666</td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.vendorName</td>
+                                    <td>@item.contactNumber</td>
+                                    <td>@item.address</td>
+                                    <td class="text-muted">
+                                        <button class="btn btn-success">Edit</button>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -111,21 +89,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form asp-controller="Vendors" asp-action="Create" method="post">
                     <div class="mb-3">
                         <label for="" class="form-label">Vendor Name</label>
-                        <input type="text" class="form-control" required>
+                        <input name="vendorName"type="text" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label">Contact Number</label>
-                        <input type="text" class="form-control" required>
+                        <input name="contactNumber" type="text" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label">Address</label>
-                        <input type="text" class="form-control" required>
+                        <input name="address" type="text" class="form-control" required>
                     </div>
                     <div class=" d-flex justify-content-end">
-                        <button type="button" class="btn btn-success">Add</button>
+                        <button type="submit" class="btn btn-success">Add</button>
                     </div>
                 </form>
             </div>
