@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<PrimeChip.Models.Inventory>;
+
+@{
     ViewData["Title"] = "Inventory";
 }
 
@@ -43,9 +45,12 @@
                         <div class="d-flex">
                             <select id="filterCategory" class="form-select" style="width: 200px;" onchange="filterTable()">
                                 <option value="">All Categories</option>
-                                <option>Storage</option>
-                                <option>Memory</option>
-                                <option>Processor</option>
+                                <option value="Storage">Storage</option>
+                                <option value="Memory">Memory</option>
+                                <option value="Processor">Processor</option>
+                                <option value="VideoCard">Video Card</option>
+                                <option value="Motherboard">Motherboard</option>
+                                <option value="Peripherals">Peripherals</option>
                             </select>
                         
                             <select id="filterStatus" class="form-select ms-1 me-1" style="max-width: 160px;" onchange="filterTable()">
@@ -72,97 +77,22 @@
                             </tr>
                         </thead>
                         <tbody class="border-1">
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>300</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-success">In stock</span></td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>300</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-warning">Low Stock</span></td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>300</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-warning">Low Stock</span></td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>300</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-danger">Out of stock</span></td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>300</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-success">In stock</span></td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>300</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-success">In stock</span></td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>300</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-warning">Low Stock</span></td>
-                                <td class="text-muted">
-                                    <button class="btn btn-success">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
+                            @foreach (var Item in Model)
+                            {
+                                <tr>
+                                    <td class="text-muted">@Item.Name</td>
+                                    <td>@Item.SKU</td>
+                                    <td>@Item.Category</td>
+                                    <td>@Item.Stock</td>
+                                    <td>@Item.ReorderLevel</td>
+                                    <td>@Item.UnitPrice</td>
+                                    <td><span class="badge bg-success">In stock</span></td>
+                                    <td class="text-muted">
+                                        <button class="btn btn-success">Edit</button>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -182,39 +112,40 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form asp-controller="Inventory" asp-action="Create" method="post">
                     <div class="mb-3">
-                        <label for="" class="form-label">Product</label>
-                        <input type="text" class="form-control" required>
+                        <label for="Name" class="form-label">Product</label>
+                        <input name="Name" type="text" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="" class="form-label">SKU</label>
-                        <input type="number" class="form-control" required>
+                        <label for="SKU" class="form-label">SKU</label>
+                        <input name="SKU" type="number" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <select class="form-select">
-                            <option value="" disabled selected>Category</option>
-                            <option>Storage</option>
-                            <option>Processor</option>
-                            <option>Video Card</option>
-                            <option>Motherboard</option>
-                            <option>Peripherals</option>
+                        <select name="Category" class="form-select">
+                            <option disabled selected>Category</option>
+                            <option value="Storage">Storage</option>
+                            <option value="Processor">Processor</option>
+                            <option value="VideoCard">Video Card</option>
+                            <option value="Motherboard">Motherboard</option>
+                            <option value="Peripherals">Peripherals</option>
+                            <option value="Memory">Memory</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="" class="form-label">Stock qty</label>
-                        <input type="number" class="form-control" required>
+                        <label for="Stock" class="form-label">Stock qty</label>
+                        <input name="Stock" type="number" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="" class="form-label">Reorder Level</label>
-                        <input type="number" class="form-control" required>
+                        <label for="ReorderLevel" class="form-label">Reorder Level</label>
+                        <input name="ReorderLevel" type="number" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="" class="form-label">Unit Price</label>
-                        <input type="number" class="form-control" required>
+                        <label for="UnitPrice" class="form-label">Unit Price</label>
+                        <input name="UnitPrice" type="number" class="form-control" required>
                     </div>
                     <div class=" d-flex justify-content-end">
-                        <button type="button" class="btn btn-success">Add</button>
+                        <button type="submit" class="btn btn-success">Add</button>
                     </div>
                 </form>
             </div>
