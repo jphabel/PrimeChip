@@ -24,5 +24,10 @@ namespace PrimeChip.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public IActionResult Edit()
+        {
+            return View();
+        }
     }
 }

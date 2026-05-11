@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+}
+
+@section Scripts {
+    <script src="~/js/reports.js"></script>
+}
+
+<div class="layout-wrapper">
+    <partial name="_SideNav" />
+
+    <!-- DASHBOARD CONTENT -->
+    <div class="main flex-column bg-light">
+        <partial name="_TopNav" />
+        <div id="sidebar-backdrop"></div>
+
+        <main class="p-3">
+
+            <div class="container-fluid">
+
+                <!-- Page Header -->
+                <div class="mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="fw-bold">Reports</h1>
+                        <p class="text-muted">View important inventory reports.</p>
+                    </div>
+                </div>
+
+                <!-- TABLE -->
+                <div class="row mb-3 g-3 p-3 justify-content-evenly">
+                   <div class="col-md-5">
+                        <a href="/Reports/InventorySummary" class="btn btn-primary w-50"><i class="bi bi-file-earmark-bar-graph me-3"></i>Inventory Summary Report</a>
+                   </div>
+                    <div class="col-md-5">
+                        <a href="/Reports/LowStock" class="btn btn-primary w-50"><i class="bi bi-exclamation-triangle me-3"></i>Low Stock Report</a>
+                   </div>
+               </div>
+
+                <div class="row mb-3 g-3 p-3 justify-content-evenly">
+                    <div class="col-md-5">
+                        <a href="/Reports/TotalInventoryValue" class="btn btn-primary w-50"><i class="bi bi-currency-dollar me-3"></i>Total Inventory Value Report</a>
+                    </div>
+                    <div class="col-md-5">
+                        <a href="/Reports/OutOfStock" class="btn btn-primary w-50"><i class="bi bi-x-circle me-3"></i>Out of Stock Report</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+</div>

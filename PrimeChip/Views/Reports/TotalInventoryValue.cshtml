@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Total Inventory Value Report";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+}
+
+<div class="layout-wrapper">
+    <partial name="_SideNav" />
+
+    <div class="main flex-column bg-light">
+        <partial name="_TopNav" />
+        <div id="sidebar-backdrop"></div>
+
+        <main class="p-3">
+            <div class="container-fluid">
+
+                <div class="mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="fw-bold">Total Inventory Value Report</h1>
+                        <p class="text-muted">Total value of products based on stock quantity and unit price.</p>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="/Reports" class="btn btn-outline-secondary rounded-5">Back</a>
+                        <a href="#" class="btn btn-success rounded-5">
+                            <i class="bi bi-printer-fill me-1"></i> Print Report
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card p-3">
+                    <table class="table table-bordered table-sm table-hover table-responsive align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>PRODUCT</th>
+                                <th>SKU</th>
+                                <th>CATEGORY</th>
+                                <th>STOCK QTY</th>
+                                <th>UNIT PRICE</th>
+                                <th>TOTAL VALUE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-muted">HP SSD 512GB</td>
+                                <td>123456789</td>
+                                <td>Storage</td>
+                                <td>300</td>
+                                <td>$9,999.00</td>
+                                <td>$2,999,700.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Kingston RAM 8GB</td>
+                                <td>456789123</td>
+                                <td>Memory</td>
+                                <td>8</td>
+                                <td>$1,800.00</td>
+                                <td>$14,400.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
