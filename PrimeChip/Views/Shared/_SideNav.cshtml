@@ -24,19 +24,19 @@
                 </a>            
             </li>
             <li class="sidebar-item">
-                <a asp-controller="Vendors" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Vendors" ? "active" : "")'>
-                    <i class="bi bi-people ms-1 start-0"></i>
-                    <span class="ms-2">Vendors</span>
-                    <i class="bi bi-caret-right-fill ms-auto"></i>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a asp-controller="Alerts" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Alerts" ? "active" : "")'>
+                <a asp-controller="Alerts" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Alerts" || ViewContext.RouteData.Values["Controller"]?.ToString() ==  "Vendors" ? "active" : "")'>
                     <i class="bi bi-bell ms-1 start-0"></i>
                     <span class="ms-2">Alerts</span>
                     <i class="bi bi-caret-right-fill ms-auto"></i>
                 </a>
             </li>
+        <li class="sidebar-item">
+            <a asp-controller="Sales" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Sales" ? "active" : "")'>
+                <i class="bi bi-receipt ms-1 start-0"></i>
+                <span class="ms-2">Sales</span>
+                <i class="bi bi-caret-right-fill ms-auto"></i>
+            </a>
+        </li>
             <li class="sidebar-item">
                 <a asp-controller="Reports" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Reports" ? "active" : "")'>
                     <i class="bi bi-file-earmark-text ms-1 start-0"></i>
@@ -45,29 +45,12 @@
                </a>
             </li>
         </ul>
-
-        <hr class="sidebar-divider m-2 mt-5 mb-4">
-        
-        <!--System nav-->
-        <ul class="sidebar-nav p-0">
-            
-            <li class="sidebar-header m-3">
-                SYSTEM
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link d-flex">
-                    <i class="bi bi-gear ms-1 start-0"></i>
-                    <span class="ms-2">Settings</span>
-                </a>
-            </li>
-
-        </ul>
          
         <!--Logout nav-->
         <div class="sidebar-footer">
-            <a asp-controller="Login" asp-action="Logout" class="sidebar-link d-flex">
-                <i class="bi bi-box-arrow-left ms-1 start-0"></i>
-                <span class="ms-2">Logout</span>
+        <a asp-controller="Login" asp-action="Logout" class="sidebar-link d-flex text-danger">
+                <i class="bi bi-box-arrow-left ms-1 start-0 "></i>
+                <span class="ms-2" >Logout</span>
             </a>
         </div>
     </aside>

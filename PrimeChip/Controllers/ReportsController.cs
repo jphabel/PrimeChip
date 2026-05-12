@@ -14,7 +14,7 @@ namespace PrimeChip.Controllers
             return View();
         }
 
-        public IActionResult LowStock()
+        public IActionResult SalesReport()
         {
             return View();
         }
@@ -24,9 +24,5 @@ namespace PrimeChip.Controllers
             return View();
         }
 
-        public IActionResult OutOfStock()
-        {
-            return View();
-        }
     }
 }

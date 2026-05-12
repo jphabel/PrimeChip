@@ -5,6 +5,7 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/dashboard.css" />
     <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/reports.css" />
 }
 
 @section Scripts {
@@ -31,23 +32,51 @@
                     </div>
                 </div>
 
-                <!-- TABLE -->
-                <div class="row mb-3 g-3 p-3 justify-content-evenly">
-                   <div class="col-md-5">
-                        <a href="/Reports/InventorySummary" class="btn btn-primary w-50"><i class="bi bi-file-earmark-bar-graph me-3"></i>Inventory Summary Report</a>
-                   </div>
-                    <div class="col-md-5">
-                        <a href="/Reports/LowStock" class="btn btn-primary w-50"><i class="bi bi-exclamation-triangle me-3"></i>Low Stock Report</a>
-                   </div>
-               </div>
+                <!-- REPORT CARDS -->
+                <div class="row g-4">
 
-                <div class="row mb-3 g-3 p-3 justify-content-evenly">
-                    <div class="col-md-5">
-                        <a href="/Reports/TotalInventoryValue" class="btn btn-primary w-50"><i class="bi bi-currency-dollar me-3"></i>Total Inventory Value Report</a>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="/Reports/InventorySummary" class="text-decoration-none">
+                            <div class="card report-card shadow-sm border-0 h-100">
+                                <div class="card-body p-4">
+                                    <div class="report-icon bg-primary-subtle text-primary mb-3">
+                                        <i class="bi bi-file-earmark-bar-graph"></i>
+                                    </div>
+                                    <h5 class="fw-bold text-dark">Inventory Summary</h5>
+                                    <p class="text-muted mb-0">View all products and stock information.</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                    <div class="col-md-5">
-                        <a href="/Reports/OutOfStock" class="btn btn-primary w-50"><i class="bi bi-x-circle me-3"></i>Out of Stock Report</a>
+
+                    <div class="col-md-6 col-lg-3">
+                        <a href="/Reports/SalesReport" class="text-decoration-none">
+                            <div class="card report-card shadow-sm border-0 h-100">
+                                <div class="card-body p-4">
+                                    <div class="report-icon bg-warning-subtle text-warning mb-3">
+                                        <i class="bi bi-currency-dollar"></i>
+                                    </div>
+                                    <h5 class="fw-bold text-dark">Sales Report</h5>
+                                    <p class="text-muted mb-0">Check products that need restocking soon.</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <a href="/Reports/TotalInventoryValue" class="text-decoration-none">
+                            <div class="card report-card shadow-sm border-0 h-100">
+                                <div class="card-body p-4">
+                                    <div class="report-icon bg-success-subtle text-success mb-3">
+                                        <i class="bi bi-piggy-bank"></i>
+                                    </div>
+                                    <h5 class="fw-bold text-dark">Inventory Value</h5>
+                                    <p class="text-muted mb-0">See the total value of your inventory.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
                 </div>
 
             </div>
