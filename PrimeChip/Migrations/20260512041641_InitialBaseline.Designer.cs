@@ -11,8 +11,8 @@ using PrimeChip.Data;
 namespace PrimeChip.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260505071450_VendorTable")]
-    partial class VendorTable
+    [Migration("20260512041641_InitialBaseline")]
+    partial class InitialBaseline
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
