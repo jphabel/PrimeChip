@@ -17,7 +17,7 @@ namespace PrimeChip.Controllers
             var totalValue = _context.Inventories
                 .Sum(i => i.Stock * i.UnitPrice);
 
-            ViewBag.TotalInventoryValue = totalValue;
+            ViewBag.TotalInventoryValue = Convert.ToDecimal(totalValue);
 
 
             var totalInventory = _context.Inventories
