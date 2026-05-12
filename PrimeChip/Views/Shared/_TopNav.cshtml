@@ -1,7 +1,7 @@
-﻿
-@*
+﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
 <style>
 
     .toggler-button {
@@ -9,14 +9,14 @@
         background: transparent;
     }
 
-    .toggler-button i {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+        .toggler-button i {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
 
     input:focus {
         outline: none;
-        box-shadow: none !important; 
+        box-shadow: none !important;
     }
 
     .profile-link {
@@ -25,9 +25,101 @@
         transition: all 0.2s ease;
     }
 
-    .profile-link:hover {
+        .profile-link:hover {
+            background-color: rgb(240, 240, 240);
+        }
+
+    /* Notification */
+    .notification-wrapper {
+        position: relative;
+    }
+
+    .notification-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        position: relative;
+    }
+
+        .notification-btn:hover {
+            background-color: rgb(240, 240, 240);
+        }
+
+    .notification-badge {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
+
+    .notification-dropdown {
+        position: absolute;
+        top: 55px;
+        right: 0;
+        width: 320px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        overflow: hidden;
+        display: none;
+        z-index: 1000;
+    }
+
+        .notification-dropdown.active {
+            display: block;
+        }
+
+    .notification-header {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        font-weight: 600;
+    }
+
+    .notification-item {
+        display: flex;
+        gap: 12px;
+        padding: 14px 15px;
+        border-bottom: 1px solid #f3f3f3;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+        .notification-item:hover {
+            background-color: rgb(248, 248, 248);
+        }
+
+    .notification-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
         background-color: rgb(240, 240, 240);
-     }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .notification-text {
+        flex: 1;
+    }
+
+        .notification-text p {
+            margin: 0;
+            font-size: 0.92rem;
+        }
+
+        .notification-text small {
+            color: gray;
+        }
 
 </style>
 
@@ -43,24 +135,57 @@
     <!-- Right side-->
     <div class="d-flex align-items-center gap-3">
 
-        <!-- Input -->
-        <div class="input-group m-0">
-            <span class="input-group-text border-end-0 rounded-5 bg-white">
-                <i class="bi bi-search text-muted"></i>
-                <input type="text" class="form-control bg-white border-start-0 border-0 rounded-5" placeholder="Search anything..." />
-            </span>
-           
-        </div>
-
         <!-- Notifications -->
-        <span role="button">
-            <i class="bi bi-bell fs-5"></i>
-        </span>
+        <div class="notification-wrapper">
 
-        <!-- Messages -->
-        <span role="button">
-            <i class="bi bi-envelope fs-5"></i>
-        </span>
+            <div class="notification-btn" id="notificationToggle">
+                <i class="bi bi-bell fs-5"></i>
+                <span class="notification-badge"></span>
+            </div>
+
+            <!-- Dropdown -->
+            <div class="notification-dropdown" id="notificationDropdown">
+
+                <div class="notification-header">
+                    Notifications
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-icon">
+                        <i class="bi bi-exclamation-triangle text-warning"></i>
+                    </div>
+
+                    <div class="notification-text">
+                        <p><strong>Low Stock Alert</strong></p>
+                        <small>RayBan Lens stock is running low.</small>
+                    </div>
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-icon">
+                        <i class="bi bi-box-seam text-primary"></i>
+                    </div>
+
+                    <div class="notification-text">
+                        <p><strong>New Product Added</strong></p>
+                        <small>Oakley Frame was added to inventory.</small>
+                    </div>
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-icon">
+                        <i class="bi bi-check-circle text-success"></i>
+                    </div>
+
+                    <div class="notification-text">
+                        <p><strong>Restock Complete</strong></p>
+                        <small>Contact lenses inventory updated.</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
 
         <!-- Avatar -->
         <a href="/Profile" class="d-flex align-items-center gap-2 text-decoration-none text-dark profile-link">
@@ -77,3 +202,25 @@
 
     </div>
 </nav>
+
+<script>
+
+    const notificationToggle = document.getElementById("notificationToggle");
+    const notificationDropdown = document.getElementById("notificationDropdown");
+
+    notificationToggle.addEventListener("click", () => {
+        notificationDropdown.classList.toggle("active");
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+
+        if (!notificationToggle.contains(e.target) &&
+            !notificationDropdown.contains(e.target)) {
+
+            notificationDropdown.classList.remove("active");
+        }
+
+    });
+
+</script>

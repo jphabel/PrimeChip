@@ -19,5 +19,7 @@ namespace PrimeChip.Controllers
 
             return View(alerts);
         }
+
+
     }
 }

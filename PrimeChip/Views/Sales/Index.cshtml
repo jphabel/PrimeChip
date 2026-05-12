@@ -29,31 +29,6 @@
                 
                 <!--TABLE-->
                 <div class="card p-2">
-                    <div class="d-flex justify-content-between mb-2">
-                        <div>
-                            <input class="form-control rounded-5" id="searchInput" placeholder="Search" />
-                        </div>
-                        <div class="d-flex">
-                            <select id="filterCategory" class="form-select" style="width: 200px;" onchange="filterTable()">
-                                <option value="">All Categories</option>
-                                <option value="Storage">Storage</option>
-                                <option value="Memory">Memory</option>
-                                <option value="Processor">Processor</option>
-                                <option value="VideoCard">Video Card</option>
-                                <option value="Motherboard">Motherboard</option>
-                                <option value="Peripherals">Peripherals</option>
-                            </select>
-                        
-                            <select id="filterStatus" class="form-select ms-1 me-1" style="max-width: 160px;" onchange="filterTable()">
-                                <option value="">All Statuses</option>
-                                <option>In Stock</option>
-                                <option>Low Stock</option>
-                                <option>Out of Stock</option>
-                            </select>
-
-                            <button class="btn btn-outline-secondary" id="clear-btn" onclick="clearFilters()">Clear</button>
-                        </div>
-                    </div>
                     <table class="table table-bordered table-sm table-hover table-responsive align-middle border-1 mb-0">
                         <thead class="table-light table-responsive border-1">
                             <tr>
