@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+}
+
+<div class="layout-wrapper">
+    <partial name="_SideNav" />
+
+    <div class="main flex-column bg-light">
+        <partial name="_TopNav" />
+        <div id="sidebar-backdrop"></div>
+
+        <main class="p-3">
+
+            <div class="container-fluid">
+
+                <div class="mb-4">
+                    <h1 class="fw-bold">Profile</h1>
+                    <p class="text-muted">Manage account information and profile settings.</p>
+                </div>
+
+                <div class="card p-4">
+
+                    <div class="text-center mb-4">
+
+                        <img src="~/images/avatar.jpg"
+                             class="rounded-circle border mb-3"
+                             width="120"
+                             height="120"
+                             style="object-fit: cover;" />
+
+                        <div>
+                            <button class="btn btn-outline-primary rounded-5">
+                                Change Profile Picture
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <form>
+
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" value="Admin User">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" value="admin@email.com">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" value="admin">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" value="password">
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="submit" class="btn btn-success rounded-5">
+                                Save Changes
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+</div>

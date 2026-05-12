@@ -19,6 +19,16 @@
         box-shadow: none !important; 
     }
 
+    .profile-link {
+        padding: 6px 10px;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+
+    .profile-link:hover {
+        background-color: rgb(240, 240, 240);
+     }
+
 </style>
 
 <nav class="navbar border-bottom bg-white border-1 px-3 py-2 d-flex align-items-center justify-content-between">
@@ -53,10 +63,17 @@
         </span>
 
         <!-- Avatar -->
-        <div class="d-flex align-items-center gap-2">
-            <img src="~/images/avatar.jpg" class="rounded-circle" width="50" height="40" />
+        <a href="/Profile" class="d-flex align-items-center gap-2 text-decoration-none text-dark profile-link">
+
+            <img src="~/images/avatar.jpg"
+                 class="rounded-circle border"
+                 width="45"
+                 height="45"
+                 style="object-fit: cover;" />
+
             <span class="fw-semibold">Admin</span>
-        </div>
+
+        </a>
 
     </div>
 </nav>

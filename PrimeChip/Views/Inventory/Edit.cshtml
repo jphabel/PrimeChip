@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Edit Product";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+}
+
+<div class="layout-wrapper">
+    <partial name="_SideNav" />
+
+    <!-- MAIN CONTENT -->
+    <div class="main flex-column bg-light">
+        <partial name="_TopNav" />
+        <div id="sidebar-backdrop"></div>
+
+        <main class="p-3">
+
+            <div class="container-fluid">
+
+                <!-- PAGE HEADER -->
+                <div class="mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="fw-bold">Edit Product</h1>
+                        <p class="text-muted">Update product information and inventory details.</p>
+                    </div>
+
+                    <div>
+                        <a href="/Inventory" class="btn btn-outline-secondary rounded-5">Back</a>
+                    </div>
+                </div>
+
+                <!-- FORM -->
+                <div class="card p-4">
+
+                    <form>
+
+                        <div class="mb-3">
+                            <label class="form-label">Product Name</label>
+                            <input type="text" class="form-control" value="HP SSD 512GB">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">SKU</label>
+                            <input type="text" class="form-control" value="123456789">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select">
+                                <option>Storage</option>
+                                <option>Processor</option>
+                                <option>Video Card</option>
+                                <option>Motherboard</option>
+                                <option>Peripherals</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Stock Qty</label>
+                                <input type="number" class="form-control" value="300">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Reorder Level</label>
+                                <input type="number" class="form-control" value="20">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Unit Price</label>
+                            <input type="number" class="form-control" value="9999">
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="/Inventory" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+                        </div>
+
+                    </form>
+
+                </div> 
+
+            </div>
+
+        </main>
+    </div>
+</div>
