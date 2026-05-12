@@ -5,7 +5,7 @@
 namespace PrimeChip.Migrations
 {
     /// <inheritdoc />
-    public partial class Inventory : Migration
+    public partial class InitialBaseline : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,6 +27,21 @@ namespace PrimeChip.Migrations
                 {
                     table.PrimaryKey("PK_Inventories", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Vendors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    vendorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    contactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    address = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vendors", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -34,6 +49,12 @@ namespace PrimeChip.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Inventories");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Vendors");
         }
     }
 }

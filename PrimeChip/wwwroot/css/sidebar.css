@@ -7,7 +7,7 @@
 
 li {
     list-style: none;
-    margin: 5px 0.50rem;
+    margin: 15px 1rem;
 }
 
     li a {
@@ -18,13 +18,11 @@ li {
         color: gray;
         padding: 13px;
         display: block;
-        transition: all 0.2s ease-in-out;
     }
 
-a:hover {
-    background-color: rgb(220, 220, 220);
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
-}
+        li a:hover {
+            box-shadow: 0px 0px 3px rgb(13, 110, 253);
+        }
 
 #sidebar {
     position: fixed;
@@ -76,9 +74,8 @@ a:hover {
 }
 
 .sidebar-link.active:hover {
-     background-color: rgb(10, 73, 191);
-     box-shadow: none;
-    }
+    border:none;
+}
 
 .sidebar-footer a {
     position: relative;
