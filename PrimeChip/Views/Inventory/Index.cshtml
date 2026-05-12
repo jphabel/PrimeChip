@@ -86,7 +86,24 @@
                                     <td>@Item.Stock</td>
                                     <td>@Item.ReorderLevel</td>
                                     <td>@Item.UnitPrice</td>
-                                    <td><span class="badge bg-success">In stock</span></td>
+                                    <td><span>
+                                        @if (Item.Stock == 0)
+                                        {
+                                            <span class="badge bg-danger">Out of Stock</span>
+                                        }
+                                        else if (Item.Stock < 10)
+                                        {
+                                            <span class="badge bg-warning text-dark">Low Stock</span>
+                                        }
+                                        else if (Item.Stock <= Item.ReorderLevel)
+                                        {
+                                            <span class="badge bg-warning">Reorder Needed</span>
+                                        }
+                                        else 
+                                        {
+                                            <span class="badge bg-success">In stock</span>
+                                        }
+                                    </span></td>
                                     <td class="text-muted">
                                         <a href="Inventory/Edit" class="btn btn-success">Edit</a>
                                         <button class="btn btn-danger">Delete</button>

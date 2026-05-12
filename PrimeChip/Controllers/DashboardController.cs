@@ -25,6 +25,17 @@ namespace PrimeChip.Controllers
 
             ViewBag.TotalStock = totalInventory;
 
+            var lowStock = _context.Inventories
+                .Count(i => i.Stock <= i.ReorderLevel);
+
+            ViewBag.LowStock = lowStock;
+
+
+            var outOfStock = _context.Inventories
+                .Count(i => i.Stock == 0);
+
+            ViewBag.OutOfStock = outOfStock;
+
             return View();
         } 
     }

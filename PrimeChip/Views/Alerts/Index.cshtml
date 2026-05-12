@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<PrimeChip.Models.Inventory>;
+
+@{
     ViewData["Title"] = "Alerts";
 }
 
@@ -74,45 +76,31 @@
                         </thead>
 
                         <tbody class="border-1">
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>5</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-warning text-dark">Low Stock</span></td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-muted">Ryzen 5 5600G</td>
-                                <td>987654321</td>
-                                <td>Processor</td>
-                                <td>0</td>
-                                <td>10</td>
-                                <td>$7,500.00</td>
-                                <td><span class="badge bg-danger">Out of Stock</span></td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-muted">Kingston RAM 8GB</td>
-                                <td>456789123</td>
-                                <td>Memory</td>
-                                <td>8</td>
-                                <td>15</td>
-                                <td>$1,800.00</td>
-                                <td><span class="badge bg-warning text-dark">Low Stock</span></td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-muted">ASUS Motherboard B450</td>
-                                <td>789123456</td>
-                                <td>Motherboard</td>
-                                <td>3</td>
-                                <td>10</td>
-                                <td>$4,200.00</td>
-                                <td><span class="badge bg-danger">Reorder Needed</span></td>
-                            </tr>
+                            @foreach (var Item in Model)
+                            {
+                                <tr>
+                                    <td class="text-muted">@Item.Name</td>
+                                    <td>@Item.SKU</td>
+                                    <td>@Item.Category</td>
+                                    <td>@Item.Stock</td>
+                                    <td>@Item.ReorderLevel</td>
+                                    <td>@Item.UnitPrice</td>
+                                    <td><span>
+                                        @if (Item.Stock == 0)
+                                        {
+                                            <span class="badge bg-danger">Out of Stock</span>
+                                        }
+                                        else if (Item.Stock < 10)
+                                        {
+                                            <span class="badge bg-warning text-dark">Low Stock</span>
+                                        }
+                                        else if (Item.Stock <= Item.ReorderLevel)
+                                        {
+                                            <span class="badge bg-warning">Reorder Needed</span>
+                                        }                                                   
+                                    </span></td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
