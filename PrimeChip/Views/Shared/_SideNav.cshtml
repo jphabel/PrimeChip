@@ -37,6 +37,13 @@
                     <i class="bi bi-caret-right-fill ms-auto"></i>
                 </a>
             </li>
+        <li class="sidebar-item">
+            <a asp-controller="Sales" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Sales" ? "active" : "")'>
+                <i class="bi bi-receipt ms-1 start-0"></i>
+                <span class="ms-2">Sales</span>
+                <i class="bi bi-caret-right-fill ms-auto"></i>
+            </a>
+        </li>
             <li class="sidebar-item">
                 <a asp-controller="Reports" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Reports" ? "active" : "")'>
                     <i class="bi bi-file-earmark-text ms-1 start-0"></i>
