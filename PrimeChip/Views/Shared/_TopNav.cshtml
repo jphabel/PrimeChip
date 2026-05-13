@@ -1,7 +1,15 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using PrimeChip.Data
+@inject AppDbContext _context
+@inject IHttpContextAccessor HttpContextAccessor
 
+@{
+    var userEmail = HttpContextAccessor.HttpContext?.Session.GetString("user");
+    var user = userEmail != null ? _context.Users.FirstOrDefault(u => u.Email == userEmail) : null;
+    var profilePic = (user != null && user.ProfileImage != null)
+        ? user.ProfileImage
+        : Url.Content("~/images/avatar.jpg");
+    var displayName = user?.FullName ?? user?.Username ?? "Admin";
+}
 <style>
 
     .toggler-button {
@@ -187,18 +195,15 @@
 
         </div>
 
-        <!-- Avatar -->
         <a href="/Profile" class="d-flex align-items-center gap-2 text-decoration-none text-dark profile-link">
-
-            <img src="~/images/avatar.jpg"
+            <img src="@profilePic"
                  class="rounded-circle border"
                  width="45"
                  height="45"
                  style="object-fit: cover;" />
-
-            <span class="fw-semibold">Admin</span>
-
+            <span class="fw-semibold">@displayName</span>
         </a>
+
 
     </div>
 </nav>

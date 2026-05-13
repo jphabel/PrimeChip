@@ -1,3 +1,4 @@
+
 // Shared chart defaults
 const textColor = "#6c757d";
 const gridColor = "rgba(0,0,0,0.06)";

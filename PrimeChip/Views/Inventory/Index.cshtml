@@ -37,27 +37,29 @@
                 </div>
                 
                 <!--TABLE-->
+                <!--TABLE-->
                 <div class="card p-2">
                     <div class="d-flex justify-content-between mb-2">
                         <div>
                             <input class="form-control rounded-5" id="searchInput" placeholder="Search"/>
                         </div>
                         <div class="d-flex">
-                            <select id="filterCategory" class="form-select" style="width: 200px;" onchange="filterTable()">
+                            <select id="filterCategory" class="form-select">
                                 <option value="">All Categories</option>
-                                <option value="Storage">Storage</option>
-                                <option value="Memory">Memory</option>
-                                <option value="Processor">Processor</option>
-                                <option value="VideoCard">Video Card</option>
-                                <option value="Motherboard">Motherboard</option>
-                                <option value="Peripherals">Peripherals</option>
+                                <option value="storage">Storage</option>
+                                <option value="memory">Memory</option>
+                                <option value="processor">Processor</option>
+                                <option value="videocard">Video Card</option>
+                                <option value="motherboard">Motherboard</option>
+                                <option value="peripherals">Peripherals</option>
                             </select>
-                        
-                            <select id="filterStatus" class="form-select ms-1 me-1" style="max-width: 160px;" onchange="filterTable()">
+        
+                            <select id="filterStatus" class="form-select ms-1 me-1" style="max-width: 160px;">
                                 <option value="">All Statuses</option>
-                                <option>In Stock</option>
-                                <option>Low Stock</option>
-                                <option>Out of Stock</option>
+                                <option value="out of stock">Out of Stock</option>
+                                <option value="low stock">Low Stock</option>
+                                <option value="reorder needed">Reorder Needed</option>
+                                <option value="in stock">In Stock</option>
                             </select>
 
                             <button class="btn btn-outline-secondary" id="clear-btn" onclick="clearFilters()">Clear</button>
@@ -84,11 +86,12 @@
                                 <tr>
                                     <td class="text-muted">@Item.Name</td>
                                     <td>@Item.SKU</td>
-                                    <td>@Item.Category</td>
+                                    <td>@Item.Category</td> 
+                                    <td>@Item.Stock</td>
                                     <td>@Item.Stock</td>
                                     <td>@Item.ReorderLevel</td>
                                     <td>@Item.UnitPrice</td>
-                                    <td><span>
+                                    <td>
                                         @if (Item.Stock == 0)
                                         {
                                             <span class="badge bg-danger">Out of Stock</span>
@@ -101,14 +104,15 @@
                                         {
                                             <span class="badge bg-warning">Reorder Needed</span>
                                         }
-                                        else 
+                                        else
                                         {
-                                            <span class="badge bg-success">In stock</span>
+                                            <span class="badge bg-success">In Stock</span>
                                         }
-                                    </span></td>
+                                    </td>
+                                    <td>@Item.CreatedAt.ToString("MMM dd, yyyy hh:mm tt")</td>
                                     <td class="text-muted">
-                                        <a href="Inventory/Edit" class="btn btn-success">Edit</a>
-                                        <button class="btn btn-danger">Delete</button>
+                                        <a href="/Inventory/Edit/@Item.Id" class="btn btn-success">Edit</a>
+                                        <button class="btn btn-danger" onclick="confirmDelete(@Item.Id)">Delete</button>
                                     </td>
                                 </tr>
                             }
@@ -166,6 +170,29 @@
                     <div class=" d-flex justify-content-end">
                         <button type="submit" class="btn btn-success">Add</button>
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this product? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" id="deleteId" value="" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
         </div>

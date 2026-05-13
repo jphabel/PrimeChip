@@ -38,7 +38,7 @@ namespace PrimeChip.Controllers
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
-            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
+            
             {
                 HttpContext.Session.SetString("user", user.Email);
                 return RedirectToAction("Index", "Dashboard");

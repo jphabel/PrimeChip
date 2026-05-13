@@ -7,21 +7,35 @@ namespace PrimeChip.Controllers
     public class InventoryController : CheckController
     {
         private readonly AppDbContext _context;
-        public InventoryController(AppDbContext context) 
+        public InventoryController(AppDbContext context)
         {
             _context = context;
         }
+
         public IActionResult Index()
         {
             var products = _context.Inventories.ToList();
             return View(products);
         }
 
-        [HttpPost]  
+        [HttpPost]
         public IActionResult Create(Inventory Item)
         {
             _context.Inventories.Add(Item);
             _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = await _context.Inventories.FindAsync(id);
+            if (item != null)
+            {
+                _context.Inventories.Remove(item);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction("Index");
         }
 

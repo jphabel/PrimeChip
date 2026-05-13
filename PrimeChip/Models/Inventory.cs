@@ -25,6 +25,8 @@ namespace PrimeChip.Models
         [Required]
         public decimal UnitPrice { get; set; }
 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
 
     }
 }

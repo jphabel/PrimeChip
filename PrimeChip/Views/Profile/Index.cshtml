@@ -1,4 +1,5 @@
-﻿@{
+﻿@model PrimeChip.Models.User
+@{
     ViewData["Title"] = "Profile";
 }
 
@@ -26,41 +27,52 @@
                 <div class="card p-4">
 
                     <div class="text-center mb-4">
-
-                        <img src="~/images/avatar.jpg"
-                             class="rounded-circle border mb-3"
-                             width="120"
-                             height="120"
-                             style="object-fit: cover;" />
-
-                        <div>
-                            <button class="btn btn-outline-primary rounded-5">
-                                Change Profile Picture
-                            </button>
-                        </div>
+                        @if (Model?.ProfileImage == null)
+                        {
+                            <img src="~/images/avatar.jpg"
+                            class="rounded-circle border mb-3"
+                            width="120"
+                            height="120"
+                            style="object-fit: cover;" />
+                        }else
+                        {
+                            <img src="@Model.ProfileImage"
+                                 class="rounded-circle border mb-3"
+                                 width="120"
+                                 height="120"
+                                 style="object-fit: cover;" />
+                        }
 
                     </div>
+                    <form asp-controller="Profile"
+                              asp-action="Update"
+                              method="post"
+                              enctype="multipart/form-data">
 
-                    <form>
+                        <div>
+                            <label class="form-label">Upload Your Profile</label>
+                            <input type="file" name="profilePhoto"class="form-control" />
+                        </div>
+
 
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
-                            <input type="text" class="form-control" value="Admin User">
+                            <input asp-for="FullName" type="text" class="form-control" value="@Model.FullName">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-control" value="admin@email.com">
+                            <input asp-for="Email" type="email" class="form-control" value="@Model.Email">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Username</label>
-                            <input type="text" class="form-control" value="admin">
+                            <input asp-for="Username" type="text" class="form-control" value="@Model.Username">
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">Password</label>
-                            <input type="password" class="form-control" value="password">
+                            <input asp-for="Password" type="password" class="form-control" value="@Model.Password">
                         </div>
 
                         <div class="d-flex justify-content-end gap-2">
