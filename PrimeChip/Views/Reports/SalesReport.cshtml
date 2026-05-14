@@ -1,5 +1,9 @@
-﻿@{
+﻿@model List<PrimeChip.Models.Sale>
+
+@{
     ViewData["Title"] = "Sales Report";
+    var stockIn = Model.Where(s => s.Type == "Stock In").ToList();
+    var stockOut = Model.Where(s => s.Type == "Stock Out").ToList();
 }
 
 @section Styles {
@@ -9,89 +13,82 @@
 
 <div class="layout-wrapper">
     <partial name="_SideNav" />
-
     <div class="main flex-column bg-light">
         <partial name="_TopNav" />
         <div id="sidebar-backdrop"></div>
-
         <main class="p-3">
             <div class="container-fluid">
-
-                <!-- Page Header -->
                 <div class="mb-4 d-flex justify-content-between align-items-center">
                     <div>
                         <h1 class="fw-bold">Sales Report</h1>
-                        <p class="text-muted">View stock-in value and stock-out revenue reports.</p>
+                        <p class="text-muted">View stock-in and stock-out movements.</p>
                     </div>
-
                     <div class="d-flex gap-2">
                         <a href="/Reports" class="btn btn-outline-secondary rounded-5">Back</a>
-                        <a href="#" class="btn btn-success rounded-5">
+                        <a href="#" class="btn btn-success rounded-5" onclick="window.print()">
                             <i class="bi bi-printer-fill me-1"></i> Print Report
                         </a>
                     </div>
                 </div>
 
-                <!-- Stock In Table -->
+                <!-- Stock In -->
                 <div class="card border-0 shadow-sm p-3 mb-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h5 class="fw-bold mb-0">Stock In</h5>
-                            <small class="text-muted">Products added to inventory.</small>
-                        </div>
-                    </div>
-
+                    <h5 class="fw-bold mb-1">Stock In</h5>
+                    <small class="text-muted d-block mb-3">Products purchased and added to inventory.</small>
                     <table class="table table-bordered table-sm table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>PRODUCT NAME</th>
+                                <th>PRODUCT</th>
+                                <th>SKU</th>
                                 <th>QTY</th>
+                                <th>UNIT PRICE</th>
                                 <th>TOTAL VALUE</th>
+                                <th>DATE</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-muted">Kingston RAM 8GB</td>
-                                <td>20</td>
-                                <td>₱36,000.00</td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">ASUS Motherboard B450</td>
-                                <td>10</td>
-                                <td>₱42,000.00</td>
-                            </tr>
+                            @foreach (var sale in stockIn)
+                            {
+                                <tr>
+                                    <td class="text-muted">@sale.ProductName</td>
+                                    <td>@sale.SKU</td>
+                                    <td>@sale.Quantity</td>
+                                    <td>₱@sale.UnitPrice.ToString("N2")</td>
+                                    <td>₱@sale.TotalAmount.ToString("N2")</td>
+                                    <td>@sale.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Stock Out Table -->
+                <!-- Stock Out -->
                 <div class="card border-0 shadow-sm p-3">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h5 class="fw-bold mb-0">Stock Out</h5>
-                            <small class="text-muted">Products sold or released from inventory.</small>
-                        </div>
-                    </div>
-
+                    <h5 class="fw-bold mb-1">Stock Out</h5>
+                    <small class="text-muted d-block mb-3">Products sold or released from inventory.</small>
                     <table class="table table-bordered table-sm table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>PRODUCT NAME</th>
+                                <th>PRODUCT</th>
+                                <th>SKU</th>
                                 <th>QTY</th>
+                                <th>UNIT PRICE</th>
                                 <th>TOTAL REVENUE</th>
+                                <th>DATE</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-muted">Kingston RAM 8GB</td>
-                                <td>12</td>
-                                <td>₱21,600.00</td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">ASUS Motherboard B450</td>
-                                <td>7</td>
-                                <td>₱29,400.00</td>
-                            </tr>
+                            @foreach (var sale in stockOut)
+                            {
+                                <tr>
+                                    <td class="text-muted">@sale.ProductName</td>
+                                    <td>@sale.SKU</td>
+                                    <td>@sale.Quantity</td>
+                                    <td>₱@sale.UnitPrice.ToString("N2")</td>
+                                    <td>₱@sale.TotalAmount.ToString("N2")</td>
+                                    <td>@sale.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

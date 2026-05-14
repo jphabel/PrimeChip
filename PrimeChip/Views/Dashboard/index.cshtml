@@ -8,6 +8,11 @@
 }
 
 @section Scripts {
+    <script>
+        const chartLabels = @Html.Raw(ViewBag.ChartLabels);
+        const chartQty = @Html.Raw(ViewBag.ChartQty);
+        const chartValue = @Html.Raw(ViewBag.ChartValue);
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/dashboard.js"></script>
 }

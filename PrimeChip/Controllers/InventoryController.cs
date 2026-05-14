@@ -21,6 +21,7 @@ namespace PrimeChip.Controllers
         [HttpPost]
         public IActionResult Create(Inventory Item)
         {
+            Item.InitialStock = Item.Stock;
             _context.Inventories.Add(Item);
             _context.SaveChanges();
             return RedirectToAction("Index");

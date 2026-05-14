@@ -1,28 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PrimeChip.Data;
+using PrimeChip.Models;
 
 namespace PrimeChip.Controllers
 {
-    public class ReportsController : Controller
+    public class ReportsController : CheckController
     {
-        public IActionResult Index()
+        private readonly AppDbContext _context;
+
+        public ReportsController(AppDbContext context)
         {
-            return View();
+            _context = context;
         }
+
+        public IActionResult Index() => View();
 
         public IActionResult InventorySummary()
         {
-            return View();
+            var items = _context.Inventories.ToList();
+            return View(items);
         }
 
         public IActionResult SalesReport()
         {
-            return View();
+            var sales = _context.Sales.OrderByDescending(s => s.CreatedAt).ToList();
+            return View(sales);
         }
 
         public IActionResult TotalInventoryValue()
         {
-            return View();
-        }
+            var summary = _context.Inventories
+                .GroupBy(i => i.Category)
+                .Select(g => new CategorySummaryViewModel
+                {
+                    Category = g.Key,
+                    TotalStock = g.Sum(i => i.Stock),
+                    TotalValue = g.Sum(i => i.Stock * i.UnitPrice)
+                })
+                .ToList();
 
+            ViewBag.GrandTotal = summary.Sum(s => s.TotalValue);
+            return View(summary);
+        }
     }
 }

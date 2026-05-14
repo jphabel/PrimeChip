@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PrimeChip.Migrations;
 using PrimeChip.Models;
 
 namespace PrimeChip.Data
@@ -13,5 +14,6 @@ namespace PrimeChip.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
-}
+        public DbSet<Sale> Sales { get; set; }
+    }
 }

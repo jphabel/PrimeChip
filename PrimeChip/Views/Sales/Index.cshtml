@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<PrimeChip.Models.Sale>
+
+@{
     ViewData["Title"] = "Sales";
 }
 
@@ -9,56 +11,55 @@
 
 <div class="layout-wrapper">
     <partial name="_SideNav" />
-
-    <!-- DASHBOARD CONTENT -->
     <div class="main flex-column bg-light">
         <partial name="_TopNav" />
         <div id="sidebar-backdrop"></div>
-
         <main class="p-3">
-
             <div class="container-fluid">
-
-                <!-- Page Header -->
-                <div class="mb-4 d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="fw-bold">Sales</h1>
-                        <p class="text-muted">Monitor stock movements.</p>
-                    </div>
+                <div class="mb-4">
+                    <h1 class="fw-bold">Sales</h1>
+                    <p class="text-muted">Monitor stock movements.</p>
                 </div>
-                
-                <!--TABLE-->
+
                 <div class="card p-2">
-                    <table class="table table-bordered table-sm table-hover table-responsive align-middle border-1 mb-0">
-                        <thead class="table-light table-responsive border-1">
+                    <table class="table table-bordered table-sm table-hover align-middle border-1 mb-0">
+                        <thead class="table-light">
                             <tr>
                                 <th>PRODUCT</th>
-                                <th>STOCK IN</th>
-                                <th>STOCK OUT</th>
+                                <th>SKU</th>
+                                <th>TYPE</th>
+                                <th>QUANTITY</th>
                                 <th>UNIT PRICE</th>
                                 <th>TOTAL</th>
-                                <th>STATUS</th>
-                                <th>ACTION</th>
+                                <th>DATE</th>
                             </tr>
                         </thead>
-                        <tbody class="border-1">
-                            <tr>
-                                <td>1TB SSD SEAGATE</td>
-                                <td>50</td>
-                                <td>10</td>
-                                <td>5000</td>
-                                <td>50000</td>
-                                <td>Out of Stock</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">Out</button>
-                                </td>
-                            </tr>
+                        <tbody>
+                            @foreach (var sale in Model)
+                            {
+                                <tr>
+                                    <td class="text-muted">@sale.ProductName</td>
+                                    <td>@sale.SKU</td>
+                                    <td>
+                                        @if (sale.Type == "Stock In")
+                                        {
+                                            <span class="badge bg-success">Stock In</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Stock Out</span>
+                                        }
+                                    </td>
+                                    <td>@sale.Quantity</td>
+                                    <td>₱@sale.UnitPrice.ToString("N2")</td>
+                                    <td>₱@sale.TotalAmount.ToString("N2")</td>
+                                    <td>@sale.CreatedAt.ToString("MMM dd, yyyy hh:mm tt")</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
-                
             </div>
-
         </main>
     </div>
 </div>

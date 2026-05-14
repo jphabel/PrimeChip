@@ -14,6 +14,8 @@ namespace PrimeChip.Models
         public string SKU { get; set; }
         [Required]
         public string Category { get; set; }
+        [Required]
+        public int InitialStock { get; set; }
 
         [Required]
         public int Stock { get; set; }

@@ -74,7 +74,12 @@
                                             <span class="badge bg-warning">Reorder Needed</span>
                                         }                                                   
                                     </span></td>
-                                    <td><a href="Alerts/Purchase" class="btn btn-success">Purchase</a></td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm"
+                                            onclick="openPurchaseModal(@Item.Id, '@Item.Name', @Item.ReorderLevel, @Item.Stock)">
+                                            Purchase
+                                        </button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -84,5 +89,33 @@
             </div>
 
         </main>
+    </div>
+</div>
+
+<div class="modal fade" id="purchaseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Purchase Stock</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="purchaseForm" method="post" asp-controller="Alerts" asp-action="Purchase">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="inventoryId" id="purchaseInventoryId" />
+                <div class="modal-body">
+                    <p>Product: <strong id="purchaseProductName"></strong></p>
+                    <p>Current Stock: <strong id="purchaseCurrentStock"></strong></p>
+                    <p>Reorder Level: <strong id="purchaseReorderLevel"></strong></p>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity to Purchase</label>
+                        <input type="number" name="quantity" class="form-control" min="1" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Confirm Purchase</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

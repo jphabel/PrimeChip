@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<PrimeChip.Models.Inventory>
+
+@{
     ViewData["Title"] = "Inventory Summary Report";
 }
 
@@ -9,30 +11,26 @@
 
 <div class="layout-wrapper">
     <partial name="_SideNav" />
-
     <div class="main flex-column bg-light">
         <partial name="_TopNav" />
         <div id="sidebar-backdrop"></div>
-
         <main class="p-3">
             <div class="container-fluid">
-
                 <div class="mb-4 d-flex justify-content-between align-items-center">
                     <div>
                         <h1 class="fw-bold">Inventory Summary Report</h1>
                         <p class="text-muted">Summary of all inventory products.</p>
                     </div>
-
                     <div class="d-flex gap-2">
                         <a href="/Reports" class="btn btn-outline-secondary rounded-5">Back</a>
-                        <a href="#" class="btn btn-success rounded-5">
+                        <a href="#" class="btn btn-success rounded-5" onclick="window.print()">
                             <i class="bi bi-printer-fill me-1"></i> Print Report
                         </a>
                     </div>
                 </div>
 
                 <div class="card p-3">
-                    <table class="table table-bordered table-sm table-hover table-responsive align-middle mb-0">
+                    <table class="table table-bordered table-sm table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>
                                 <th>PRODUCT</th>
@@ -45,28 +43,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-muted">HP SSD 512GB</td>
-                                <td>123456789</td>
-                                <td>Storage</td>
-                                <td>300</td>
-                                <td>20</td>
-                                <td>$9,999.00</td>
-                                <td><span class="badge bg-success">In Stock</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">Ryzen 5 5600G</td>
-                                <td>987654321</td>
-                                <td>Processor</td>
-                                <td>0</td>
-                                <td>10</td>
-                                <td>$7,500.00</td>
-                                <td><span class="badge bg-danger">Out of Stock</span></td>
-                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-muted">@item.Name</td>
+                                    <td>@item.SKU</td>
+                                    <td>@item.Category</td>
+                                    <td>@item.Stock</td>
+                                    <td>@item.ReorderLevel</td>
+                                    <td>₱@item.UnitPrice.ToString("N2")</td>
+                                    <td>
+                                        @if (item.Stock == 0)
+                                        {
+                                            <span class="badge bg-danger">Out of Stock</span>
+                                        }
+                                        else if (item.Stock < 10)
+                                        {
+                                            <span class="badge bg-warning text-dark">Low Stock</span>
+                                        }
+                                        else if (item.Stock <= item.ReorderLevel)
+                                        {
+                                            <span class="badge bg-warning">Reorder Needed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">In Stock</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </main>
     </div>
