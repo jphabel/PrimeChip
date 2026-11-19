@@ -1,0 +1,138 @@
+@model PrimeChip.Models.StockOutViewModel
+
+@{
+	ViewData["Title"] = "Stock Out";
+}
+
+@section Styles {
+	<link rel="stylesheet" href="~/css/dashboard.css" />
+	<link rel="stylesheet" href="~/css/sidebar.css" />
+}
+
+<div class="layout-wrapper">
+	<partial name="_SideNav" />
+	<div class="main flex-column bg-light">
+		<partial name="_TopNav" />
+		<div id="sidebar-backdrop"></div>
+		<main class="p-3">
+			<div class="container-fluid">
+				<div class="mb-4">
+					<h1 class="fw-bold">Stock Out</h1>
+					<p class="text-muted">Quickly record items sold, damaged, or used internally. No checkout or payment flow.</p>
+				</div>
+
+				@if (TempData["Success"] is string success)
+				{
+					<div class="alert alert-success">@success</div>
+				}
+				@if (!ViewData.ModelState.IsValid)
+				{
+					<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+				}
+
+				<div class="row g-3 mb-4">
+					<div class="col-md-4"><div class="card border-0 shadow-sm rounded-4 p-3"><div class="text-muted">Units Sold Today</div><div class="fs-3 fw-bold">@Model.UnitsSoldToday</div></div></div>
+					<div class="col-md-4"><div class="card border-0 shadow-sm rounded-4 p-3"><div class="text-muted">Estimated Sales Value Today</div><div class="fs-3 fw-bold">₱@Model.EstimatedSalesValueToday.ToString("N2")</div></div></div>
+					<div class="col-md-4"><div class="card border-0 shadow-sm rounded-4 p-3"><div class="text-muted">Stock Out Transactions Today</div><div class="fs-3 fw-bold">@Model.TransactionsToday</div></div></div>
+				</div>
+
+				<div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+					<h5 class="fw-semibold mb-3">Record Stock Out</h5>
+					<form asp-action="Create" method="post" class="row g-3">
+						@Html.AntiForgeryToken()
+						<div class="col-md-4">
+							<label asp-for="Category" class="form-label">Category</label>
+							<select asp-for="Category" class="form-select">
+								<option value="">Select category</option>
+								@foreach (var category in Model.Categories)
+								{
+									<option value="@category">@category</option>
+								}
+							</select>
+							<span asp-validation-for="Category" class="text-danger"></span>
+						</div>
+						<div class="col-md-4">
+							<label asp-for="ProductName" class="form-label">Product Name</label>
+							<input asp-for="ProductName" class="form-control" maxlength="100" autocomplete="off" />
+							<span asp-validation-for="ProductName" class="text-danger"></span>
+						</div>
+						<div class="col-md-2">
+							<label asp-for="Quantity" class="form-label">Quantity Out</label>
+							<input asp-for="Quantity" type="number" min="1" class="form-control" />
+							<span asp-validation-for="Quantity" class="text-danger"></span>
+						</div>
+						<div class="col-md-2">
+							<label asp-for="Reason" class="form-label">Reason</label>
+							<select asp-for="Reason" class="form-select">
+								<option>Sold</option>
+								<option>Damaged/Defective</option>
+								<option>Internal Use</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<label asp-for="Date" class="form-label">Date</label>
+							<input asp-for="Date" type="date" class="form-control" />
+						</div>
+						<div class="col-md-10">
+							<label asp-for="Note" class="form-label">Optional Note / Reference</label>
+							<input asp-for="Note" class="form-control" maxlength="500" />
+						</div>
+						<div class="col-md-2 d-flex align-items-end">
+							<button type="submit" class="btn btn-primary w-100">Record Stock Out</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="card border-0 shadow-sm rounded-4 p-3">
+					<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+						<h5 class="fw-semibold mb-0">Stock Out Entries</h5>
+						<form asp-action="Index" method="get" class="d-flex gap-2">
+							<label for="date" class="col-form-label">View date</label>
+							<input id="date" name="date" type="date" value="@Model.FilterDate.ToString("yyyy-MM-dd")" class="form-control" />
+							<button type="submit" class="btn btn-outline-primary">Filter</button>
+						</form>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-hover align-middle mb-0">
+							<thead class="table-light"><tr><th>Time</th><th>Category</th><th>Product</th><th>SKU</th><th>Qty Out</th><th>Reason</th><th>Total Value</th><th>Note</th><th>Action</th></tr></thead>
+							<tbody>
+								@foreach (var movement in Model.Movements)
+								{
+									<tr class="@(movement.IsVoided ? "text-muted" : "")">
+										<td>@movement.CreatedAt.ToString("hh:mm tt")</td>
+										<td>@movement.Category</td>
+										<td>@movement.ProductName</td>
+										<td>@movement.Inventory.SKU</td>
+										<td>@movement.Quantity</td>
+										<td>@movement.Reason</td>
+										<td>@(movement.Reason == "Sold" ? $"₱{(movement.Quantity * movement.UnitPrice):N2}" : "—")</td>
+										<td>@movement.Note</td>
+										<td>
+											@if (movement.IsVoided)
+											{
+												<span class="badge bg-secondary">Voided</span>
+											}
+											else
+											{
+												<form asp-action="Undo" method="post" class="d-inline" onsubmit="return confirm('Void this stock-out entry and restore its quantity?');">
+													@Html.AntiForgeryToken()
+													<input type="hidden" name="id" value="@movement.Id" />
+													<input type="hidden" name="date" value="@Model.FilterDate.ToString("yyyy-MM-dd")" />
+													<button type="submit" class="btn btn-outline-danger btn-sm">Undo / Void</button>
+												</form>
+											}
+										</td>
+									</tr>
+								}
+								@if (Model.Movements.Count == 0)
+								{
+									<tr><td colspan="9" class="text-center text-muted">No stock-out entries for this date.</td></tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>

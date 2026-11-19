@@ -9,6 +9,12 @@
         ? user.ProfileImage
         : Url.Content("~/images/avatar.jpg");
     var displayName = user?.FullName ?? user?.Username ?? "Admin";
+    var lowStockItems = _context.Inventories
+        .Where(item => item.Stock <= item.ReorderLevel)
+        .OrderBy(item => item.Stock)
+        .ThenBy(item => item.Name)
+        .Take(5)
+        .ToList();
 }
 <style>
 
@@ -148,7 +154,10 @@
 
             <div class="notification-btn" id="notificationToggle">
                 <i class="bi bi-bell fs-5"></i>
-                <span class="notification-badge"></span>
+                @if (lowStockItems.Count > 0)
+                {
+                    <span class="notification-badge"></span>
+                }
             </div>
 
             <!-- Dropdown -->
@@ -158,38 +167,22 @@
                     Notifications
                 </div>
 
-                <div class="notification-item">
-                    <div class="notification-icon">
-                        <i class="bi bi-exclamation-triangle text-warning"></i>
-                    </div>
-
-                    <div class="notification-text">
-                        <p><strong>Low Stock Alert</strong></p>
-                        <small>RayBan Lens stock is running low.</small>
-                    </div>
-                </div>
-
-                <div class="notification-item">
-                    <div class="notification-icon">
-                        <i class="bi bi-box-seam text-primary"></i>
-                    </div>
-
-                    <div class="notification-text">
-                        <p><strong>New Product Added</strong></p>
-                        <small>Oakley Frame was added to inventory.</small>
-                    </div>
-                </div>
-
-                <div class="notification-item">
-                    <div class="notification-icon">
-                        <i class="bi bi-check-circle text-success"></i>
-                    </div>
-
-                    <div class="notification-text">
-                        <p><strong>Restock Complete</strong></p>
-                        <small>Contact lenses inventory updated.</small>
-                    </div>
-                </div>
+                @if (lowStockItems.Count == 0)
+                {
+                    <div class="notification-item text-muted">No low-stock alerts.</div>
+                }
+                @foreach (var item in lowStockItems)
+                {
+                    <a asp-controller="Alerts" asp-action="Index" class="notification-item text-decoration-none text-dark">
+                        <div class="notification-icon">
+                            <i class="bi @(item.Stock == 0 ? "bi-exclamation-circle text-danger" : "bi-exclamation-triangle text-warning")"></i>
+                        </div>
+                        <div class="notification-text">
+                            <p><strong>@(item.Stock == 0 ? "Out of Stock" : "Low Stock")</strong></p>
+                            <small>@item.Name — @item.Stock left (reorder at @item.ReorderLevel)</small>
+                        </div>
+                    </a>
+                }
 
             </div>
 

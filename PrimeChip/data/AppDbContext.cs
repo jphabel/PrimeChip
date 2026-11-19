@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PrimeChip.Migrations;
 using PrimeChip.Models;
 
 namespace PrimeChip.Data
@@ -15,5 +14,21 @@ namespace PrimeChip.Data
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<StockMovement> StockMovements { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StockMovement>()
+                .HasOne(movement => movement.Inventory)
+                .WithMany()
+                .HasForeignKey(movement => movement.InventoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<StockMovement>()
+                .HasOne(movement => movement.Vendor)
+                .WithMany()
+                .HasForeignKey(movement => movement.VendorId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

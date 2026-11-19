@@ -109,7 +109,7 @@ This command was verified against the current solution.
 | Connection-string name | `DefaultConnection` |
 | Connection-string file | `PrimeChip/appsettings.json` |
 | Automatic creation at startup | No—neither `Database.Migrate()` nor `EnsureCreated()` is called |
-| EF migrations | Yes, five migrations in `PrimeChip/Migrations/` |
+| EF migrations | Yes, seven migrations in `PrimeChip/Migrations/` |
 | EF/model seed data | None |
 | ASP.NET Identity tables | None; the project uses its own `Users` entity/table |
 | Required SQL schema script | None |
@@ -120,7 +120,8 @@ This command was verified against the current solution.
 - `Users`
 - `Inventories`
 - `Vendors`
-- `Sales`
+- `Sales` (legacy records)
+- `StockMovements` (new stock-in / stock-out ledger)
 
 EF Core also creates `__EFMigrationsHistory` to track applied migrations.
 
@@ -205,8 +206,10 @@ The expected migration order is:
 3. `20260513225251_InitialStock`
 4. `20260513225629_Sales` (an intentionally empty migration in the repository)
 5. `20260513235705_FixDecimalPrecision`
+6. `20261119061629_AddStockMovements`
+7. `20261119064141_AddStockMovementProductDetails`
 
-The migration chain was checked by listing the migrations, generating an idempotent SQL migration script, and comparing the current model with the snapshot. EF reported no pending model changes.
+The latest migration adds category and product-name snapshots to stock movement records. Stock In and Stock Out use a category dropdown with a typed product name. Stock In can create a missing inventory product when SKU and unit price are supplied; Stock Out only deducts an existing category/name match. To create a future migration, run `dotnet ef migrations add <MigrationName> --project .\PrimeChip\PrimeChip.csproj --startup-project .\PrimeChip\PrimeChip.csproj --output-dir Migrations`. Apply pending migrations with `dotnet ef database update --project .\PrimeChip\PrimeChip.csproj --startup-project .\PrimeChip\PrimeChip.csproj`.
 
 ### 3. Verify the database
 
@@ -222,11 +225,12 @@ Use Windows Authentication. Expand **Databases > PrimeChipDb > Tables** and conf
 dbo.__EFMigrationsHistory
 dbo.Inventories
 dbo.Sales
+dbo.StockMovements
 dbo.Users
 dbo.Vendors
 ```
 
-The history table should contain the five migrations listed above.
+The history table should contain the seven migrations listed above.
 
 ### Account and seed-data status
 
@@ -299,7 +303,7 @@ After a successful setup:
 3. The database is empty unless account or application data was provisioned separately.
 4. Authenticated pages are session-gated and redirect to the login page when the session key is missing.
 
-Do not test a random or nonexistent email on the current login form: the current controller can throw a null-reference exception when no matching user exists. See the security notes below.
+The login form rejects nonexistent email addresses and incorrect passwords with an invalid-credentials message.
 
 ## Authentication and Authorization
 
@@ -307,13 +311,13 @@ This project does **not** use ASP.NET Core Identity, cookie authentication, clai
 
 The current flow is:
 
-1. `LoginController` queries the custom `Users` table by email.
-2. A string is stored in session under the `user` key.
+1. `LoginController` queries the custom `Users` table by email and verifies the submitted password against its BCrypt hash.
+2. Only valid credentials create a session string under the `user` key.
 3. Most application controllers inherit from `CheckController`, which redirects to `Login/Index` when that session value is absent.
 4. Logout clears the session.
 
 > [!WARNING]
-> The current login action does not safely implement authentication: it does not verify the submitted password with BCrypt and it dereferences a missing user. A diagnostic endpoint also contains a hard-coded test password. Treat this as a known application security defect. It must be corrected before deployment or use with real accounts, but no application source was changed as part of this README work.
+> The diagnostic `TestHash` endpoint still contains a hard-coded test password and should not be exposed in a deployed application.
 
 ## Application Startup Flow
 
@@ -339,11 +343,11 @@ PrimeChip/
   PrimeChip.csproj             Target framework and NuGet references
   Program.cs                   Dependency registration and request pipeline
   appsettings*.json            Logging and database configuration
-  Controllers/                 Login, dashboard, inventory, alerts, sales,
-                               vendors, reports, and profile actions
-  Models/                      EF entities and view models
+  Controllers/                 Login, dashboard, inventory, stock-in/out,
+                                alerts, vendors, reports, and profile actions
+  Models/                      EF entities and movement/dashboard view models
   data/AppDbContext.cs         EF Core DbContext (namespace PrimeChip.Data)
-  Migrations/                  Five SQL Server EF Core migrations and snapshot
+  Migrations/                  SQL Server EF Core migrations and snapshot
   Views/                       Razor MVC views and shared layout/partials
   Properties/launchSettings.json
                                Local HTTP/HTTPS profiles
@@ -355,11 +359,12 @@ PrimeChip.zip                  Stale archive; not used by the solution
 
 Main functional areas:
 
-- **Dashboard**: inventory totals and charts; some alert/order/top-item markup is placeholder content.
-- **Inventory**: list, create, and delete products; records initial stock.
-- **Alerts/Vendors**: lists low-stock products, records stock-in movements, and manages basic vendor records.
-- **Sales**: records stock-out movements and reduces inventory.
-- **Reports**: inventory summary, stock movement report, and inventory value grouped by category.
+- **Dashboard**: live inventory KPIs, low/out-of-stock alerts, recent stock movements, and today's sold totals.
+- **Inventory**: list, create, and delete products; product stock changes through Stock In and Stock Out movements.
+- **Stock In**: records product receipts with vendor, quantity, date, and reference note.
+- **Stock Out**: records sold, damaged/defective, or internal-use quantities, checks available stock, and supports voiding mistaken entries.
+- **Vendors / Alerts**: manages vendors and lists products at or below their reorder level.
+- **Reports**: printable stock-out and sales summaries filterable by date range, plus inventory reports.
 - **Profile**: updates the current custom user and stores an uploaded profile image under `wwwroot/uploads`.
 
 ## Troubleshooting
@@ -447,7 +452,7 @@ dotnet dev-certs https --trust
 
 ### Login fails on a fresh database
 
-This is expected because migrations do not seed a user. Do not run the committed SQL files as a general fix. Ask the project owner for an approved first-user provisioning process. A nonexistent email can currently cause a null-reference error because of the known login-controller defect.
+This is expected because migrations do not seed a user. Do not run the committed SQL files as a general fix. Ask the project owner for an approved first-user provisioning process. Invalid credentials are now rejected without an exception.
 
 ### Icons or charts are missing
 
@@ -459,7 +464,7 @@ Bootstrap Icons and Chart.js are loaded from CDNs. Confirm that the PC can reach
 - Add a new EF migration whenever an entity/schema change is made; do not edit an already-applied migration casually.
 - Do not add `EnsureCreated()` to bypass migrations. The repository is already migration-based.
 - `AddSession()` appears twice in `Program.cs`; this is redundant but was left unchanged.
-- Several model nullability warnings and login-controller warnings are present. The solution currently builds despite them.
+- Some model nullability warnings may remain; the solution builds successfully.
 - Some views reference first-party scripts that are absent (`wwwroot/js/reports.js` and `wwwroot/js/Vendors.js`), which can produce browser 404s but does not prevent the server from building.
 - Uploaded files are stored directly under the web root. Validate file types, size limits, and access policy before production use.
 - Do not commit `.vs/`, `*.csproj.user`, build output, database files, or personal configuration. The repository's `.gitignore` already excludes common Visual Studio files and SQL data files.
@@ -470,13 +475,13 @@ Bootstrap Icons and Chart.js are loaded from CDNs. Confirm that the PC can reach
 - The live `appsettings.json` uses a generic LocalDB connection with Windows Authentication and contains no database password.
 - No API keys, bearer tokens, client secrets, private certificates, or custom secret environment variables were found in the live project files.
 - The two tracked SQL files contain a fixed account email and BCrypt credential hashes. Even hashes are sensitive credential material and should not be reused or documented. Remove the scripts from Git/history if they are not intentionally retained, and rotate any account whose credentials they represent.
-- The login implementation currently bypasses password verification and is unsafe for production.
+- Login verifies submitted passwords against BCrypt hashes; provisioned accounts must have BCrypt-hashed passwords.
 - The diagnostic password-hash endpoint contains a hard-coded test password and should not be exposed in a deployed application.
 - The tracked ZIP duplicates old source/build output and contains generated machine-specific metadata; remove it from version control if it is not intentionally distributed.
 
 ## Verification Performed
 
-The repository was reviewed without changing application source code. The following checks succeeded on Windows with .NET SDK 10.0.400:
+The following checks succeeded during the original repository review, before the login fix, on Windows with .NET SDK 10.0.400:
 
 ```powershell
 dotnet restore .\PrimeChip.slnx
@@ -486,4 +491,4 @@ dotnet ef migrations script --idempotent --project .\PrimeChip\PrimeChip.csproj 
 dotnet ef migrations has-pending-model-changes --project .\PrimeChip\PrimeChip.csproj --startup-project .\PrimeChip\PrimeChip.csproj
 ```
 
-The build completed with 17 compiler/Razor warnings and no errors. EF listed all five migrations, generated the migration SQL successfully, and reported no model changes since the last migration. A live `database update` was intentionally not run during documentation verification to avoid modifying an existing developer database; the migration chain was validated through EF's design-time commands instead.
+The `PrimeChip` project built successfully in Release after the stock-movement changes. The stock-movement migration was applied to the configured LocalDB and verified in `__EFMigrationsHistory`; the existing login account remained present. Existing nullable-model warnings and dependency advisories remain outside this change.

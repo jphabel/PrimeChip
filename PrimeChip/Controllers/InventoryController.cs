@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PrimeChip.Data;
 using PrimeChip.Models;
 
@@ -34,10 +35,17 @@ namespace PrimeChip.Controllers
             var item = await _context.Inventories.FindAsync(id);
             if (item != null)
             {
+                var hasMovements = await _context.StockMovements.AnyAsync(movement => movement.InventoryId == id);
+                if (hasMovements)
+                {
+                    TempData["Error"] = "This product has stock movement history and cannot be deleted.";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 _context.Inventories.Remove(item);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit()

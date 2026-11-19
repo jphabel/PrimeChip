@@ -16,27 +16,31 @@
             <li class="sidebar-header m-3">
                 MODULES
             </li>
-            <li class="sidebar-item"> 
-                <a asp-controller="Inventory" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")'>
-                       <i class="bi bi-box ms-1 start-0"></i>
-                       <span class="ms-2">Inventory</span>
-                       <i class="bi bi-caret-right-fill ms-auto"></i>
-                </a>            
-            </li>
             <li class="sidebar-item">
-                <a asp-controller="Alerts" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Alerts" || ViewContext.RouteData.Values["Controller"]?.ToString() ==  "Vendors" ? "active" : "")'>
-                    <i class="bi bi-bell ms-1 start-0"></i>
-                    <span class="ms-2">Alerts</span>
-                    <i class="bi bi-caret-right-fill ms-auto"></i>
+                <a asp-controller="Inventory" asp-action="Index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")'>
+                    <i class="bi bi-box ms-1"></i><span class="ms-2">Inventory</span><i class="bi bi-caret-right-fill ms-auto"></i>
                 </a>
             </li>
-        <li class="sidebar-item">
-            <a asp-controller="Sales" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Sales" ? "active" : "")'>
-                <i class="bi bi-receipt ms-1 start-0"></i>
-                <span class="ms-2">Sales</span>
-                <i class="bi bi-caret-right-fill ms-auto"></i>
-            </a>
-        </li>
+            <li class="sidebar-item">
+                <a asp-controller="StockIn" asp-action="Index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "StockIn" ? "active" : "")'>
+                    <i class="bi bi-box-arrow-in-down ms-1"></i><span class="ms-2">Stock In</span><i class="bi bi-caret-right-fill ms-auto"></i>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a asp-controller="StockOut" asp-action="Index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "StockOut" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Sales" ? "active" : "")'>
+                    <i class="bi bi-box-arrow-up-right ms-1"></i><span class="ms-2">Stock Out</span><i class="bi bi-caret-right-fill ms-auto"></i>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a asp-controller="Vendors" asp-action="Index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Vendors" ? "active" : "")'>
+                    <i class="bi bi-truck ms-1"></i><span class="ms-2">Vendors</span><i class="bi bi-caret-right-fill ms-auto"></i>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a asp-controller="Alerts" asp-action="Index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Alerts" ? "active" : "")'>
+                    <i class="bi bi-bell ms-1"></i><span class="ms-2">Alerts</span><i class="bi bi-caret-right-fill ms-auto"></i>
+                </a>
+            </li>
             <li class="sidebar-item">
                 <a asp-controller="Reports" asp-action="index" class='sidebar-link d-flex @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Reports" ? "active" : "")'>
                     <i class="bi bi-file-earmark-text ms-1 start-0"></i>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PrimeChip.Data;
-
+using PrimeChip.Models;
 
 namespace PrimeChip.Controllers
 {
@@ -12,58 +13,53 @@ namespace PrimeChip.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            var totalValue = _context.Inventories
-                .Sum(i => i.Stock * i.UnitPrice);
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+            var products = _context.Inventories.AsNoTracking();
+            var soldToday = _context.StockMovements.AsNoTracking()
+                .Where(movement => movement.MovementType == "StockOut"
+                    && movement.Reason == "Sold"
+                    && !movement.IsVoided
+                    && movement.CreatedAt >= today
+                    && movement.CreatedAt < tomorrow);
 
-            ViewBag.TotalInventoryValue = Convert.ToDecimal(totalValue);
+            var model = new DashboardViewModel
+            {
+                TotalProducts = await products.CountAsync(),
+                TotalStock = await products.SumAsync(item => (int?)item.Stock) ?? 0,
+                LowStock = await products.CountAsync(item => item.Stock > 0 && item.Stock <= item.ReorderLevel),
+                OutOfStock = await products.CountAsync(item => item.Stock == 0),
+                TotalInventoryValue = await products.SumAsync(item => (decimal?)(item.Stock * item.UnitPrice)) ?? 0m,
+                UnitsSoldToday = await soldToday.SumAsync(movement => (int?)movement.Quantity) ?? 0,
+                SalesValueToday = await soldToday.SumAsync(movement => (decimal?)(movement.Quantity * movement.UnitPrice)) ?? 0m,
+                StockOutsToday = await _context.StockMovements.CountAsync(movement =>
+                    movement.MovementType == "StockOut" && !movement.IsVoided
+                    && movement.CreatedAt >= today && movement.CreatedAt < tomorrow),
+                Alerts = await products.Where(item => item.Stock <= item.ReorderLevel)
+                    .OrderBy(item => item.Stock).ThenBy(item => item.Name).Take(8).ToListAsync(),
+                RecentMovements = await _context.StockMovements.AsNoTracking()
+                    .Include(movement => movement.Inventory)
+                    .Include(movement => movement.Vendor)
+                    .OrderByDescending(movement => movement.CreatedAt).Take(8).ToListAsync(),
+                TopStockItems = await products.OrderByDescending(item => item.Stock).Take(5).ToListAsync()
+            };
 
+            var months = Enumerable.Range(0, 7).Select(offset => new DateTime(today.Year, today.Month, 1).AddMonths(offset - 6)).ToList();
+            model.ChartLabels = months.Select(month => month.ToString("MMM yyyy")).ToList();
+            foreach (var month in months)
+            {
+                var nextMonth = month.AddMonths(1);
+                var movements = _context.StockMovements.AsNoTracking().Where(movement =>
+                    movement.MovementType == "StockOut" && movement.Reason == "Sold" && !movement.IsVoided
+                    && movement.CreatedAt >= month && movement.CreatedAt < nextMonth);
+                model.ChartQty.Add(await movements.SumAsync(movement => (int?)movement.Quantity) ?? 0);
+                model.ChartValue.Add(await movements.SumAsync(movement => (decimal?)(movement.Quantity * movement.UnitPrice)) ?? 0m);
+            }
 
-            var totalInventory = _context.Inventories
-                .Sum(i => i.Stock);
-
-            ViewBag.TotalStock = totalInventory;
-
-            var lowStock = _context.Inventories
-                .Count(i => i.Stock <= i.ReorderLevel);
-
-            ViewBag.LowStock = lowStock;
-
-
-            var outOfStock = _context.Inventories
-                .Count(i => i.Stock == 0);
-
-            ViewBag.OutOfStock = outOfStock;
-
-            var now = DateTime.Now;
-            var months = Enumerable.Range(0, 7)
-                .Select(i => now.AddMonths(-6 + i))
-                .ToList();
-
-            var monthlyLabels = months.Select(m => m.ToString("MMMM")).ToList();
-
-            var monthlyQty = months.Select(m =>
-                _context.Inventories
-                    .Where(i => i.CreatedAt.Month == m.Month && i.CreatedAt.Year == m.Year)
-                    .Sum(i => (int?)i.Stock) ?? 0
-            ).ToList();
-
-            var monthlyValue = months.Select(m =>
-                _context.Inventories
-                    .Where(i => i.CreatedAt.Month == m.Month && i.CreatedAt.Year == m.Year)
-                    .Sum(i => (decimal?)(i.Stock * i.UnitPrice)) ?? 0
-            ).ToList();
-
-            ViewBag.ChartLabels = System.Text.Json.JsonSerializer.Serialize(monthlyLabels);
-            ViewBag.ChartQty = System.Text.Json.JsonSerializer.Serialize(monthlyQty);
-            ViewBag.ChartValue = System.Text.Json.JsonSerializer.Serialize(monthlyValue);
-            ViewBag.TotalProducts = _context.Inventories.Count();
-            ViewBag.LowStock = _context.Inventories.Count(i => i.Stock > 0 && i.Stock < 10);
-            ViewBag.OutOfStock = _context.Inventories.Count(i => i.Stock == 0);
-            ViewBag.TotalValue = _context.Inventories.Sum(i => (decimal?)(i.Stock * i.UnitPrice)) ?? 0;
-
-            return View();
+            return View(model);
         }
     }
 }

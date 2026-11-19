@@ -33,19 +33,19 @@ namespace PrimeChip.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Login");
         }
-        [HttpPost] 
+        [HttpPost]
         public IActionResult Login(string email, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
-            
+            if (user == null || string.IsNullOrEmpty(password) || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                HttpContext.Session.SetString("user", user.Email);
-                return RedirectToAction("Index", "Dashboard");
+                ViewBag.Error = "Invalid credentials";
+                return View("Index");
             }
 
-            ViewBag.Error = "Invalid credentials"; 
-            return View("Index");
+            HttpContext.Session.SetString("user", user.Email);
+            return RedirectToAction("Index", "Dashboard");
         }
     }
 }
